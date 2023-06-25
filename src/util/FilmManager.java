@@ -72,5 +72,9 @@ public class FilmManager {
         films.remove(filmID);
     }
     
-    
+    public void showAllFilms() {
+        films.forEach( (k,v) -> {
+            System.out.println("FilmID: " + k + "\nFilm Information: " + v);
+        });
+    }
 }
