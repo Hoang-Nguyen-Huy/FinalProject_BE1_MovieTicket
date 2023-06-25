@@ -1,12 +1,13 @@
 package com;
 
-import java.sql.Date;
+import java.util.Date;
 
 public class Film {
+    
     protected String filmID, name, author, studio;
     protected int duration;
     protected Date date;
-    public Film() {}
+
     public Film(String filmID, String name, String author, String studio, int duration, Date date) {
         this.filmID = filmID;
         this.name = name;

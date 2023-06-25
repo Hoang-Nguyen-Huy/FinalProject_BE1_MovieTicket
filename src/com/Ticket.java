@@ -1,17 +1,20 @@
 package com;
 
 import java.sql.Date;
+import java.time.LocalDate;
 
 public class Ticket extends Film {
-    String username;
-    int price;
-    Date exportDate;
 
-    public Ticket(String filmID, String name, String author, String studio, int duration, Date date, int price,
-            Date exportDate) {
+    String username;
+    String seat;
+    int price;
+    Date exportDate = java.sql.Date.valueOf(LocalDate.now());
+
+    public Ticket(String filmID, String name, String author, String studio, int duration, Date date, String seat, int price) {
         super(filmID, name, author, studio, duration, date);
+        this.seat = seat;
         this.price = price;
-        this.exportDate = exportDate;
+        //exportDate auto generate at the time buying ticket.
     }
 
     @Override
