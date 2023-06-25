@@ -66,9 +66,10 @@ public class FilmManager {
         films.put(newFilm.getFilmId(), newFilm);
     }
 
-    public void deleteFilm(Film deleteFilm) {
-
-        films.remove(deleteFilm.getFilmId());
+    public void deleteFilm() {
+        System.out.print("Enter Film ID that you wanna delete: ");
+        String filmID = sc.nextLine();
+        films.remove(filmID);
     }
     
     
