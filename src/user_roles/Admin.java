@@ -8,6 +8,6 @@ public class Admin  extends User {
         FilmManager.addNewFilm(this);
     }
     public void deleteFilm() {
-
+        FilmManager.deleteFilm();
     }
 }

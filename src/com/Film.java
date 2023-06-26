@@ -55,10 +55,4 @@ public class Film {
         return String.format("[ Film ID: %s,\n Film Name: %s,\n Author: %s,\n Duration: %s,\n Date: %s ]",
                             filmID, name, author, studio, (duration<60?duration:(duration/60) + "h" + (duration%60*60) + "m"), date);
     }
-    
-
-
-    
-
-
 }

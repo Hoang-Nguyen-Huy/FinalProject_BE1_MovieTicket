@@ -73,8 +73,13 @@ public class FilmManager {
     }
     
     public void showAllFilms() {
-        films.forEach( (k,v) -> {
-            System.out.println("FilmID: " + k + "\nFilm Information: " + v);
-        });
+        if (films.isEmty()) {
+            System.out.println("Empty list!");
+        } else {
+            System.out.println("Film list:");
+            films.forEach( (k,v) -> {
+            System.out.println("\tFilmID: " + k + "\n\tFilm Information: " + v);
+            });
+        }
     }
 }
