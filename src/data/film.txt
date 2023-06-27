@@ -1,0 +1,4 @@
+f001,Avatar 2,James Cameron,165,30/11/2023
+f002,Pink Panther,Metro Goldwyn Mayer,60,30/02/2025
+f003,Mickey,Donald,120,05/08/2004
+f004,Pink Panther,Metro Goldwyn Mayer,60,30/02/1999

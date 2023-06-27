@@ -1,18 +1,20 @@
-package com;
+package comp;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Film {
-    
-    protected String filmID, name, author, studio;
+    final static String DATE_FORMAT = "dd/MM/yyyy";
+    DateFormat f = new SimpleDateFormat(DATE_FORMAT);
+    protected String filmID, name, director;
     protected int duration;
     protected Date date;
 
-    public Film(String filmID, String name, String author, String studio, int duration, Date date) {
+    public Film(String filmID, String name, String director, int duration, Date date) {
         this.filmID = filmID;
         this.name = name;
-        this.author = author;
-        this.studio = studio;
+        this.director = director;
         this.duration = duration;
         this.date = date;
     }
@@ -22,11 +24,8 @@ public class Film {
     public String getName() {
         return name;
     }
-    public String getAuthor() {
-        return author;
-    }
-    public String getStudio() {
-        return studio;
+    public String getDirector() {
+        return director;
     }
     public int getDuration() {
         return duration;
@@ -37,11 +36,8 @@ public class Film {
     public void setName(String name) {
         this.name = name;
     }
-    public void setAuthor(String author) {
-        this.author = author;
-    }
-    public void setStudio(String studio) {
-        this.studio = studio;
+    public void setDirector(String director) {
+        this.director = director;
     }
     public void setDuration(int duration) {
         this.duration = duration;
@@ -52,7 +48,7 @@ public class Film {
 
     @Override
     public String toString() {
-        return String.format("[ Film ID: %s,\n Film Name: %s,\n Author: %s,\n Duration: %s,\n Date: %s ]",
-                            filmID, name, author, studio, (duration<60?duration:(duration/60) + "h" + (duration%60*60) + "m"), date);
+        return String.format("{\tFilm ID: %s,\n\t\tFilm Name: %s,\n\t\tDirector: %s,\n\t\tDuration: %s,\n\t\tDate: %s \n\t},",
+                            filmID, name, director, (duration<60?duration:(duration/60) + "h" + (duration%60) + "m"), date);
     }
 }

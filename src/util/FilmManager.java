@@ -1,24 +1,56 @@
 package util;
 
 import java.util.Date;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
-import com.Film;
+import comp.Film;
 
 class InvalidDateException extends Exception {
 }
 
-public class FilmManager {
+public class FilmManager extends HashMap<String, Film> {
     final static String DATE_FORMAT = "dd/MM/yyyy";
     DateFormat f = new SimpleDateFormat(DATE_FORMAT);
-    Scanner sc = new Scanner(System.in);
-    Map<String, Film> films = new HashMap<>();
+    final static String fileURL = "src\\data\\film.txt";
 
-    public FilmManager() {}
+    Scanner sc = new Scanner(System.in);
+    TextFileHandler loadFilm = new TextFileHandler(fileURL);
+
+    public FilmManager() {
+        super();
+    }
+
+    public void loadFilmsToList() {
+
+        for (String[] line : loadFilm.readFilms()) {    //go through every line in text
+            for (int i=0; i<5; i++) {
+                String filmID = line[0];
+                String name = line[1];
+                String director = line[2];
+                int duration = Integer.parseInt(line[3]);
+                Date date = null;
+                try {
+                    date = f.parse(line[4]);
+                } catch (ParseException e) {
+                    throw new RuntimeException(e);
+                }
+                Film temp = new Film(filmID, name, director, duration, date);
+                this.put(filmID, temp);
+            }
+        }
+        System.out.println(this.size());
+
+    }
 
     private boolean isDateValid(String date) {
         try {
@@ -32,13 +64,11 @@ public class FilmManager {
     }
     public void addNewFilm() {
         System.out.print("Enter film name: ");
-            String filmName = sc.nextLine();
+        String filmName = sc.nextLine();
         System.out.print("Enter author name: ");
-            String author = sc.nextLine();
-        System.out.print("Enter studio's name: ");
-            String studio = sc.nextLine();
+        String author = sc.nextLine();
         System.out.print("Enter film's length in minute(s): ");
-            int duration = Integer.parseInt(sc.nextLine());
+        int duration = Integer.parseInt(sc.nextLine());
         Date date = null;
         do {
             System.out.print("Enter premier date: ");
@@ -59,27 +89,28 @@ public class FilmManager {
                 System.out.println("Wrong format, please type again!");
                 System.gc();
             }
-        } while (date==null);  
-            
-        Film newFilm = new Film(filmName, filmName, author, studio, duration, date);
-        
-        films.put(newFilm.getFilmId(), newFilm);
+        } while (date == null);
+
+        Film newFilm = new Film(filmName, filmName, author, duration, date);
+
+        this.put(newFilm.getFilmId(), newFilm);
     }
 
     public void deleteFilm() {
         System.out.print("Enter Film ID that you wanna delete: ");
         String filmID = sc.nextLine();
-        films.remove(filmID);
+        this.remove(filmID);
     }
-    
+
     public void showAllFilms() {
-        if (films.isEmty()) {
+        if (this.isEmpty()) {
             System.out.println("Empty list!");
         } else {
             System.out.println("Film list:");
-            films.forEach( (k,v) -> {
-            System.out.println("\tFilmID: " + k + "\n\tFilm Information: " + v);
+            this.forEach((k, v) -> {
+                System.out.println("\t" + v);
             });
         }
     }
+
 }
