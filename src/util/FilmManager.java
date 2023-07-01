@@ -15,17 +15,17 @@ class InvalidDateException extends Exception {
 public class FilmManager extends HashMap<String, Film> {
     final static String DATE_FORMAT = "dd/MM/yyyy";
     DateFormat f = new SimpleDateFormat(DATE_FORMAT);
-    final static String fileURL = "src\\data\\film.txt";
-
+    final static String Film_URL = "src\\data\\film.txt";
+    final static String prevFilm_URL = "src\\data\\prevFilm.txt";
     Scanner sc = new Scanner(System.in);
-    TextFileHandler loadFilm = new TextFileHandler(fileURL);
+
 
     public FilmManager() {
         super();
     }
 
     public void loadFilmsToList() {
-
+        TextFileHandler loadFilm = new TextFileHandler(Film_URL);
         for (String[] line : loadFilm.readFilms()) {    //go through every line in text
             for (int i=0; i<5; i++) {
                 String filmID = line[0];
@@ -57,6 +57,11 @@ public class FilmManager extends HashMap<String, Film> {
         }
     }
     public void addNewFilm() {
+        int counter = this.size() + 1;
+        String filmID = String.format("f%03d", ++counter);
+        while (this.containsKey(filmID)) {
+            filmID = String.format("f%03d", ++counter);
+        }
         System.out.print("Enter film name: ");
         String filmName = sc.nextLine();
         System.out.print("Enter author name: ");
@@ -64,18 +69,17 @@ public class FilmManager extends HashMap<String, Film> {
         System.out.print("Enter film's length in minute(s): ");
         int duration = Integer.parseInt(sc.nextLine());
         Date date = null;
+        String iDate;
         do {
             System.out.print("Enter premier date: ");
             DateFormat f = new SimpleDateFormat(DATE_FORMAT);
             try {
-                String iDate = sc.nextLine();
-                if (!iDate.matches(DATE_FORMAT)) {
-                    throw new Exception();
-                }
+                iDate = sc.nextLine();
+                date = f.parse(iDate);
                 if (!isDateValid(iDate)) {
                     throw new InvalidDateException();
                 }
-                date = f.parse(iDate);
+
             } catch (InvalidDateException y) {
                 System.out.println("Invalid date, try again!");
                 System.gc();
@@ -85,15 +89,38 @@ public class FilmManager extends HashMap<String, Film> {
             }
         } while (date == null);
 
-        Film newFilm = new Film(filmName, filmName, author, duration, date);
-
-        this.put(newFilm.getFilmId(), newFilm);
+        Film newFilm = new Film(filmID, filmName, author, duration, date);
+        this.put(filmID, newFilm);
+        storeNewFilm(this, filmID);
     }
 
     public void deleteFilm() {
         System.out.print("Enter Film ID that you wanna delete: ");
         String filmID = sc.nextLine();
-        this.remove(filmID);
+        if (isFilmExist(filmID)) {
+            storeOldFilm(this, filmID);
+            this.remove(filmID);
+        } else {
+            System.out.println("Wrong ID or film not exist!");
+        }
+
+    }
+
+    public boolean isFilmExist(String filmID) {
+        return this.containsKey(filmID);
+    }
+    public void storeOldFilm(FilmManager filmList, String filmID) {
+        TextFileHandler storePrevFilm = new TextFileHandler(prevFilm_URL);
+        storePrevFilm.writeFilm(this, filmID);
+    }
+
+    public void storeNewFilm(FilmManager filmList, String filmID) {
+        TextFileHandler storeNewFilm = new TextFileHandler(Film_URL);
+        storeNewFilm.writeFilm(this, filmID);
+    }
+
+    public void reloadFilms() {
+
     }
 
     public void showAllFilms() {

@@ -13,6 +13,8 @@ public class Main {
     public static void main (String[] args) {
         FilmManager filmManager = new FilmManager();
         filmManager.loadFilmsToList();
+//        filmManager.deleteFilm();
+//        filmManager.addNewFilm();
         filmManager.showAllFilms();
     }
 }
