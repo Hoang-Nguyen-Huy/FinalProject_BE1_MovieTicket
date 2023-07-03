@@ -58,7 +58,7 @@ public class FilmManager extends HashMap<String, Film> {
     }
     public void addNewFilm() {
         int counter = this.size() + 1;
-        String filmID = String.format("f%03d", ++counter);
+        String filmID = String.format("f%03d", counter);
         while (this.containsKey(filmID)) {
             filmID = String.format("f%03d", ++counter);
         }
