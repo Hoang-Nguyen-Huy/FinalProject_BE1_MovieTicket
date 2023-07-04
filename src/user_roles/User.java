@@ -3,18 +3,16 @@ package user_roles;
 import util.TicketManager;
 
 public class User {
-    protected String userID;
     protected String userName;
     protected String password;
     protected int role;
     protected int fund;
 
-    public User(String userID, String userName, String password, int fund) {
-        this.userID = userID;
+    public User(String userName, String password, int fund, int role) {
         this.userName = userName;
         this.password = password;
-        this.fund = fund>0?fund:0;
-        this.role = 0;
+        this.fund = fund>0?fund:1000;
+        this.role = role;
     }
 
     public int getFund() {
@@ -23,14 +21,6 @@ public class User {
 
     public void setFund(int fund) {
         this.fund = fund;
-    }
-
-    public String getUserID() {
-        return userID;
-    }
-
-    public void setUserID(String userID) {
-        this.userID = userID;
     }
 
     public void setUserName(String userName) {
@@ -49,7 +39,11 @@ public class User {
         return password;
     }
 
-//    public void buyTicket(String filmName) {
+    public int getRole() {
+        return role;
+    }
+
+    //    public void buyTicket(String filmName) {
 //        TicketManager.addTicket(this.userName, filmName);
 //    }
 

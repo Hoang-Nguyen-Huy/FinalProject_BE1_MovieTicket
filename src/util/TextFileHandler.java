@@ -1,32 +1,15 @@
 package util;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 public class TextFileHandler extends File {
-
-
-
-
+    final static String DATE_FORMAT = "dd/MM/yyyy";
     public TextFileHandler(String path) {
         super(path);
     }
-
-//    public String readAccounts() throws IOException {
-//
-//
-//        while ((line = reader.readLine()) != null) {
-//            stringBuilder.append(line);
-//            stringBuilder.append(System.lineSeparator());
-//        }
-//
-//        reader.close();
-//        return stringBuilder.toString();
-//    }
 
     public List<String[]> readFilms() {
         List<String[]> list = new ArrayList();
@@ -39,15 +22,36 @@ public class TextFileHandler extends File {
                 list.add(line);
                 fString = reader.readLine();
             }
+            reader.close();
         } catch (IOException e) {
             System.err.println(e);
         }
         return list;
     }
-//    public void write(String content) throws IOException {
-//        BufferedWriter writer = new BufferedWriter(new FileWriter(this));
-//        writer.write(content);
-//        writer.close();
-//    }
+    public void writeFilm(FilmManager filmList, String filmID)  {
+        BufferedWriter writer = null;
+        try {
+            writer = new BufferedWriter(new FileWriter(this, true));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            writer.write(filmList.get(filmID).getFilmId());
+            writer.write(",");
+            writer.write(filmList.get(filmID).getName());
+            writer.write(",");
+            writer.write(filmList.get(filmID).getDirector());
+            writer.write(",");
+            writer.write(String.valueOf(filmList.get(filmID).getDuration()));
+            writer.write(",");
+            // format Date, only show dd/MM/yyyy
+            writer.write(new SimpleDateFormat(DATE_FORMAT).format(filmList.get(filmID).getDate()));
+            writer.newLine();
+            writer.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
 }
 

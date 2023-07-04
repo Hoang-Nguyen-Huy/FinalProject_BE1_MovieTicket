@@ -3,18 +3,20 @@ package util;
 import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Scanner;
 
+import user_roles.Admin;
 import user_roles.User;
 
 public class AccountManager extends HashMap<String, User> {
     final static String fileName = "src\\data\\account.txt";
-
+    Scanner sc = new Scanner(System.in);
     public AccountManager() {
         super();
+        loadUsersFromFile();
     }
 
-    private Map<String, User> loadUsersFromFile() {
-        Map<String, User> loadedUsers = new HashMap<>();
+    private void loadUsersFromFile() {
         try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
             String line;
             while ((line = br.readLine()) != null) {
@@ -25,44 +27,83 @@ public class AccountManager extends HashMap<String, User> {
                     String password = data[2];
                     int fund = Integer.parseInt(data[3]);
 
+                    /*
                     User user = new User(userID, userName, password, fund);
-                    loadedUsers.put(userName, user);
+                    Admin admin = new Admin(userID, userName, password, fund);
+                    this.put(userName, user);
+                    this.put(userID, admin);
+                     */
                 }
             }
         } catch (FileNotFoundException e) {
             // File does not exist, return an empty map
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        return loadedUsers;
-    }
-
-    private void saveUsersToFile() {
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(fileName))) {
-            for (User user : this.values()) {
-                String line = user.getUserID() + "," + user.getUserName() + "," + user.getPassword() + ","
-                        + user.getFund();
-                bw.write(line);
-                bw.newLine();
-            }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void addNewUser(User newUser) {
-        if (isUserExists(newUser.getUserName())) {
-            System.out.println("Username already exists. Please choose a different username.");
-            return;
+    private void saveUsersToFile() {
+
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(fileName))) {
+            this.forEach((k, v) -> {
+                String line = String.format("%s, %s, %s, %s, %s",
+                        k, v.getUserName(), v.getPassword(), v.getFund(), v.getRole()
+                );
+                try {
+                    bw.write(line);
+                    bw.newLine();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        this.put(newUser.getUserName(), newUser);
-        saveUsersToFile();
-    }
-    public User getUser(String userName) {
-        return this.get(userName);
     }
 
-    public boolean isUserExists(String userName) {
-        return this.containsKey(userName);
+
+    public void registerNewUser() {
+        int counter = this.size() + 1;
+        String userID = String.format("f%03d", counter);
+        while (this.containsKey(userID)) {
+            userID = String.format("f%03d", ++counter);
+        }
+        String userName, password;
+        do {
+            System.out.print("Input your username: ");
+            userName = sc.nextLine();
+            System.out.print("Input your password: ");
+            password = sc.nextLine();
+        } while (isUserExists(userName));
+
+        System.out.println("------------Congrats, your account has been registed!------------");
+
+        this.put(userID, new User(userName, password, 0, 0));
+        saveUsersToFile();
     }
+    public User getUserByUserName(String userName) {
+        for (User user : this.values()) {
+            if (user.getUserName().equals(userName)) {
+                return user;
+            }
+        }
+        return null;
+    }
+    public User getUserByUserID(String userID) {
+        for (String ID : this.keySet()) {
+            if (ID.equals(userID)) {
+                return this.get(userID);
+            }
+        }
+        return null;
+    }
+    public boolean isUserExists(String userName) {
+        for (User user : this.values()) {
+            if (user.getUserName().equals(userName)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }

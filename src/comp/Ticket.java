@@ -13,7 +13,7 @@ public class Ticket extends Film {
     public Ticket(String filmID, String name, String director, int duration, Date date, String seat, int price) {
         super(filmID, name, director, duration, date);
         this.seat = seat;
-        this.price = price;
+        this.price = price>0? price*1000:1000;
         //exportDate auto generate at the time buying ticket.
     }
 

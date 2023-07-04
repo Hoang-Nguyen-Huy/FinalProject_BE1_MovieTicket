@@ -46,9 +46,11 @@ public class Film {
         this.date = date;
     }
 
+
     @Override
     public String toString() {
         return String.format("{\tFilm ID: %s,\n\t\tFilm Name: %s,\n\t\tDirector: %s,\n\t\tDuration: %s,\n\t\tDate: %s \n\t},",
-                            filmID, name, director, (duration<60?duration:(duration/60) + "h" + (duration%60) + "m"), date);
+                            filmID, name, director, (duration<60?duration:(duration/60) + "h" + (duration%60) + "m"),
+                            String.valueOf(new SimpleDateFormat("dd/MM/yyyy").format(date)));
     }
 }
