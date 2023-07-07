@@ -46,7 +46,11 @@ public class AccountManager extends HashMap<String, User> {
 
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(fileName))) {
             this.forEach((k, v) -> {
+<<<<<<< HEAD
                 String line = String.format("%s, %s, %s, %s",
+=======
+                String line = String.format("%s, %s, %s, %s, %s",
+>>>>>>> 53bb5336d225469356a5f2a07d3b890e33a2392d
                         k, v.getUserName(), v.getPassword(), v.getFund()
                 );
                 try {

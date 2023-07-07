@@ -40,7 +40,7 @@ public class Menu extends ArrayList<String> {
 
     public void adminMenu() {
         this.clear();
-
+c
         this.add("Adjust Movie:");
         this.add("\t1. Add new movie.");
         this.add("\t2. Show all movie.");
