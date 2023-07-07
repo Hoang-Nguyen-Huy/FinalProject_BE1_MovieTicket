@@ -1,5 +1,6 @@
 package run;
 
+import ui.Menu;
 import user_roles.Admin;
 import user_roles.User;
 import util.FilmManager;
@@ -13,11 +14,8 @@ Final Project BE1 - Movie Ticket Booking System Online with Java
  */
 public class Main {
     public static void main (String[] args) {
-        FilmManager filmManager = new FilmManager();
-        filmManager.loadFilmsToList();
-//        filmManager.deleteFilm();
-//        filmManager.addNewFilm();
-        filmManager.showAllFilms();
+        Menu menu = new Menu();
+
 
     }
 }
