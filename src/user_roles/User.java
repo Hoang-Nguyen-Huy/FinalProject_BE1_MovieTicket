@@ -38,11 +38,4 @@ public class User {
         return password;
     }
 
-    public void refundTicket(String filmName) {
-        TicketManager.deleteTicket(this.userName, filmName);
-    }
-
-    public int getNumTickets() {
-        return TicketManager.numberOfTickets(this.userName);
-    }
 }

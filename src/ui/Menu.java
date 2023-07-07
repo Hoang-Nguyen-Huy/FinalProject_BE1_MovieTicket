@@ -72,4 +72,14 @@ public class Menu extends ArrayList<String> {
                 System.out.println(m);   
         }
     }
+
+    public String getUsername() {
+        System.out.print("Input your username: ");
+        return sc.nextLine();
+    }
+
+    public String getPassword() {
+        System.out.print("Input your password: ");
+        return sc.nextLine();
+    }
 }
