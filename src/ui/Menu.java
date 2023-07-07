@@ -29,6 +29,7 @@ public class Menu extends ArrayList<String> {
             System.out.print("Input an amount you want to deposit: ");
         }
     }
+
     public void userMenu() {
         this.clear();
         this.add("\t1. Buy Ticket.");
