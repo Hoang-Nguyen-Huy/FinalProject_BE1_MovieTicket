@@ -11,6 +11,7 @@ public class User {
         this.userName = userName;
         this.password = password;
         this.fund = fund > 0 ? fund : 1000;
+
     }
 
     public int getFund() {
