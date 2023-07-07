@@ -5,14 +5,14 @@ import util.TicketManager;
 public class User {
     protected String userName;
     protected String password;
-    protected int role;
+
     protected int fund;
 
-    public User(String userName, String password, int fund, int role) {
+    public User(String userName, String password, int fund) {
         this.userName = userName;
         this.password = password;
         this.fund = fund>0?fund:1000;
-        this.role = role;
+
     }
 
     public int getFund() {
@@ -39,9 +39,6 @@ public class User {
         return password;
     }
 
-    public int getRole() {
-        return role;
-    }
 
     //    public void buyTicket(String filmName) {
 //        TicketManager.addTicket(this.userName, filmName);

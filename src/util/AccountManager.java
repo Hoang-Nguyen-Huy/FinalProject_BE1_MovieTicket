@@ -26,13 +26,13 @@ public class AccountManager extends HashMap<String, User> {
                     String userName = data[1];
                     String password = data[2];
                     int fund = Integer.parseInt(data[3]);
-
-                    /*
-                    User user = new User(userID, userName, password, fund);
-                    Admin admin = new Admin(userID, userName, password, fund);
-                    this.put(userName, user);
-                    this.put(userID, admin);
-                     */
+                    if (userID.charAt(0) == 'A') {
+                        Admin admin = new Admin(userName, password, fund);
+                        this.put(userID, admin);
+                    } else {
+                        User user = new User(userName, password, fund);
+                        this.put(userName, user);
+                    }
                 }
             }
         } catch (FileNotFoundException e) {
@@ -46,8 +46,8 @@ public class AccountManager extends HashMap<String, User> {
 
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(fileName))) {
             this.forEach((k, v) -> {
-                String line = String.format("%s, %s, %s, %s, %s",
-                        k, v.getUserName(), v.getPassword(), v.getFund(), v.getRole()
+                String line = String.format("%s, %s, %s, %s",
+                        k, v.getUserName(), v.getPassword(), v.getFund()
                 );
                 try {
                     bw.write(line);
@@ -78,7 +78,7 @@ public class AccountManager extends HashMap<String, User> {
 
         System.out.println("------------Congrats, your account has been registed!------------");
 
-        this.put(userID, new User(userName, password, 0, 0));
+        this.put(userID, new User(userName, password, 0));
         saveUsersToFile();
     }
     public User getUserByUserName(String userName) {
