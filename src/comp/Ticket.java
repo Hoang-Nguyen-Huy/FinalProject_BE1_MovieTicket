@@ -17,6 +17,10 @@ public class Ticket extends Film {
         //exportDate auto generate at the time buying ticket.
     }
 
+    public String getSeat () {
+        return seat;
+    }
+
     @Override
     public String toString() {
         return String.format("Film Name: %s,\n Director: %s,\n Duration: %s",

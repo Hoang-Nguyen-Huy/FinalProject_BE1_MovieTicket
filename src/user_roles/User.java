@@ -5,29 +5,23 @@ import util.TicketManager;
 public class User {
     protected String userName;
     protected String password;
-<<<<<<< HEAD
-<<<<<<< HEAD
 
-=======
->>>>>>> 53bb5336d225469356a5f2a07d3b890e33a2392d
-=======
->>>>>>> 37f05cd66343b2422b1238a417f9e3fd9cdff2f8
+
+
     protected int fund;
 
     public User(String userName, String password, int fund) {
         this.userName = userName;
         this.password = password;
-<<<<<<< HEAD
-<<<<<<< HEAD
+
         this.fund = fund>0?fund:1000;
 
-=======
-        this.fund = fund > 0 ? fund : 1000;
->>>>>>> 53bb5336d225469356a5f2a07d3b890e33a2392d
-=======
+
         this.fund = fund > 0 ? fund : 1000;
 
->>>>>>> 37f05cd66343b2422b1238a417f9e3fd9cdff2f8
+        this.fund = fund > 0 ? fund : 1000;
+
+
     }
 
     public int getFund() {
@@ -54,17 +48,13 @@ public class User {
         return password;
     }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 
     //    public void buyTicket(String filmName) {
 //        TicketManager.addTicket(this.userName, filmName);
 //    }
 
-=======
->>>>>>> 53bb5336d225469356a5f2a07d3b890e33a2392d
-=======
->>>>>>> 37f05cd66343b2422b1238a417f9e3fd9cdff2f8
+
     public void refundTicket(String filmName) {
         TicketManager.deleteTicket(this.userName, filmName);
     }

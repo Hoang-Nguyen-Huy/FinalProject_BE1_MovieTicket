@@ -5,6 +5,7 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,10 +13,9 @@ import java.util.Map;
 import comp.Ticket;
 
 public class TicketManager {
-    static Map<String, List<Ticket>> ticketList = new HashMap<>();
-    static char[][] seatMatrix = new char[5][11];
-
-    static final String seatMatrixFileName = "src/data/seat.txt";
+    private static Map<String, List<Ticket>> ticketList = new HashMap<>();
+    private static char[][] seatMatrix = new char[5][11];
+    private static final String seatMatrixFileName = "src/data/seat.txt";
 
     static {
         loadSeatMatrixFromFile();
@@ -47,9 +47,6 @@ public class TicketManager {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    TicketManager() {
     }
 
     public static void showSeatMatrix() {
@@ -86,9 +83,56 @@ public class TicketManager {
         seatMatrix[row][col] = 'x';
 
         // Update ticket information
-        Ticket newTicket = new Ticket(filmName, row, col);
-        ticketList.get(username).add(newTicket);
+        Ticket newTicket = new Ticket("", filmName, "", 0, null, row + "-" + col, 0);
+
+        List<Ticket> userTickets = ticketList.get(username);
+        if (userTickets != null) {
+            userTickets.add(newTicket);
+        } else {
+            userTickets = new ArrayList<>();
+            userTickets.add(newTicket);
+            ticketList.put(username, userTickets);
+        }
 
         saveSeatMatrixToFile();
+    }
+
+    public static void deleteTicket(String username, String filmName) {
+        List<Ticket> tickets = ticketList.get(username);
+        if (tickets != null) {
+            for (Ticket ticket : tickets) {
+                if (ticket.getName().equals(filmName)) {
+                    int row = Integer.parseInt(ticket.getSeat().split("-")[0]);
+                    int col = Integer.parseInt(ticket.getSeat().split("-")[1]);
+                    seatMatrix[row][col] = Character.forDigit(col, 10);
+                    tickets.remove(ticket);
+                    saveSeatMatrixToFile();
+                    return;
+                }
+            }
+        }
+    }
+
+
+    public static int numberOfTickets(String username) {
+        List<Ticket> tickets = ticketList.get(username);
+        if (tickets != null) {
+            return tickets.size();
+        }
+        return 0;
+    }
+
+    public static void printSeatMatrix() {
+        System.out.println("---------------------------- Screen ----------------------------");
+        char rowLabel = 'A';
+        for (int row = 0; row < seatMatrix.length; row++) {
+            System.out.print(rowLabel + " ");
+            for (int col = 0; col < seatMatrix[row].length; col++) {
+                System.out.print("  " + seatMatrix[row][col] + " ");
+            }
+            System.out.println();
+            rowLabel++;
+        }
+        System.out.println();
     }
 }
