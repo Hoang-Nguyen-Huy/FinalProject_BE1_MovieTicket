@@ -21,7 +21,7 @@ public class TicketManager {
         loadSeatMatrixFromFile();
     }
 
-    private static void loadSeatMatrixFromFile() {
+    private void loadSeatMatrixFromFile() {
         try (BufferedReader reader = new BufferedReader(new FileReader(seatMatrixFileName))) {
             String line;
             int row = 0;
@@ -45,7 +45,7 @@ public class TicketManager {
         }
     }
 
-    private static void saveSeatMatrixToFile() {
+    private void saveSeatMatrixToFile() {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(seatMatrixFileName))) {
             for (int row = 0; row < seatMatrix.length; row++) {
                 for (int col = 0; col < seatMatrix[row].length; col++) {
@@ -58,7 +58,7 @@ public class TicketManager {
         }
     }
 
-    public static void showSeatMatrix() {
+    public void showSeatMatrix() {
         System.out.println("\n\t\t\tScreen\n");
         System.out.print("  ");
         for (int col = 0; col < seatMatrix[0].length; col++) {
@@ -77,7 +77,7 @@ public class TicketManager {
         System.out.println();
     }
 
-    public static void chooseSeat(String username, String filmName, int row, int col) {
+    public void chooseSeat(String username, String filmName, int row, int col) {
         if (row < 0 || row >= seatMatrix.length || col < 0 || col >= seatMatrix[0].length) {
             System.out.println("Invalid seat selection.");
             return;
@@ -106,7 +106,7 @@ public class TicketManager {
         saveSeatMatrixToFile();
     }
 
-    public static void deleteTicket(String username, String filmName) {
+    public void deleteTicket(String username, String filmName) {
         List<Ticket> tickets = ticketList.get(username);
         if (tickets != null) {
             for (Ticket ticket : tickets) {
@@ -122,7 +122,7 @@ public class TicketManager {
         }
     }
 
-    public static int numberOfTickets(String username) {
+    public int numberOfTickets(String username) {
         List<Ticket> tickets = ticketList.get(username);
         if (tickets != null) {
             return tickets.size();
@@ -130,7 +130,7 @@ public class TicketManager {
         return 0;
     }
 
-    public static void printSeatMatrix() {
+    public void printSeatMatrix() {
         System.out.println("---------------------------- Screen ----------------------------");
         char rowLabel = 'A';
         for (int row = 0; row < seatMatrix.length; row++) {
