@@ -53,4 +53,5 @@ public class Film {
                             filmID, name, director, (duration<60?duration:(duration/60) + "h" + (duration%60) + "m"),
                             String.valueOf(new SimpleDateFormat("dd/MM/yyyy").format(date)));
     }
+
 }

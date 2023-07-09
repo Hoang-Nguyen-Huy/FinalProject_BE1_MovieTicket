@@ -110,5 +110,4 @@ public class AccountManager extends HashMap<String, User> {
         }
         return false;
     }
-
 }

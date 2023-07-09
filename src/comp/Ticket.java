@@ -27,5 +27,4 @@ public class Ticket extends Film {
                 name, director, 
                 (duration < 60 ? duration + "m" : (duration / 60) + "h" + duration%60*60 + "m"));
     }
-
 }
