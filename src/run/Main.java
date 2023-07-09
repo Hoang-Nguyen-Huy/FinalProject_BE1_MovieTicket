@@ -18,7 +18,6 @@ public class Main {
         // Hiển thị ma trận chỗ ngồi ban đầu
         TicketManager.showSeatMatrix();
 
-
         // Chọn chỗ ngồi cho user
         TicketManager.chooseSeat("user1", "Film A", 1, 2);
         TicketManager.chooseSeat("user1", "Film B", 3, 4);

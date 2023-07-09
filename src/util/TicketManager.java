@@ -143,5 +143,4 @@ public class TicketManager {
         }
         System.out.println();
     }
-
 }
