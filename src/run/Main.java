@@ -15,24 +15,27 @@ Final Project BE1 - Movie Ticket Booking System Online with Java
  */
 public class Main {
     public static void main (String[] args) {
+        // Hiển thị ma trận chỗ ngồi ban đầu
         TicketManager.showSeatMatrix();
 
-        // Chọn chỗ ngồi cho người dùng
-        TicketManager.chooseSeat("user1", "Film 1", 2, 3);
-        TicketManager.chooseSeat("user2", "Film 2", 1, 5);
-        TicketManager.chooseSeat("user1", "Film 3", 4, 8);
+        // Chọn chỗ ngồi cho user
+        TicketManager.chooseSeat("user1", "Film A", 1, 2);
+        TicketManager.chooseSeat("user1", "Film B", 3, 4);
+        TicketManager.chooseSeat("user1", "Film C", 2, 6);
 
-        // Hiển thị lại ma trận chỗ ngồi sau khi đã chọn
-        TicketManager.printSeatMatrix();
+        // Hiển thị ma trận chỗ ngồi sau khi có người chọn
+        TicketManager.showSeatMatrix();
 
-        // Xóa vé của người dùng
-        TicketManager.deleteTicket("user1", "Film 1");
+        // Hiển thị số vé của user1
+        System.out.println("Number of tickets for user1: " + TicketManager.numberOfTickets("user1"));
 
-        // Hiển thị lại ma trận chỗ ngồi sau khi đã xóa vé
-        TicketManager.printSeatMatrix();
+        // Xóa vé của user1 cho Film A
+        TicketManager.deleteTicket("user1", "Film A");
 
-        // Số lượng vé của người dùng
-        int numberOfTickets = TicketManager.numberOfTickets("user1");
-        System.out.println("Number of tickets for user1: " + numberOfTickets);
+        // Hiển thị ma trận chỗ ngồi sau khi xóa vé
+        TicketManager.showSeatMatrix();
+
+        // Hiển thị số vé của user1 sau khi xóa vé
+        System.out.println("Number of tickets for user1: " + TicketManager.numberOfTickets("user1"));
     }
 }

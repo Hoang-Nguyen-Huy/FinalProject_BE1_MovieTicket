@@ -34,6 +34,15 @@ public class TicketManager {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        // Thay đổi trạng thái ban đầu khi chưa có ai đặt vé
+        for (int row = 0; row < seatMatrix.length; row++) {
+            for (int col = 0; col < seatMatrix[row].length; col++) {
+                if (seatMatrix[row][col] != 'x') {
+                    seatMatrix[row][col] = Character.forDigit(col, 10);
+                }
+            }
+        }
     }
 
     private static void saveSeatMatrixToFile() {
@@ -112,7 +121,6 @@ public class TicketManager {
             }
         }
     }
-
 
     public static int numberOfTickets(String username) {
         List<Ticket> tickets = ticketList.get(username);
