@@ -1,3 +1,4 @@
+
 package user_roles;
 
 import util.TicketManager;
@@ -5,23 +6,12 @@ import util.TicketManager;
 public class User {
     protected String userName;
     protected String password;
-
-
-
     protected int fund;
 
     public User(String userName, String password, int fund) {
         this.userName = userName;
         this.password = password;
-
-        this.fund = fund>0?fund:1000;
-
-
         this.fund = fund > 0 ? fund : 1000;
-
-        this.fund = fund > 0 ? fund : 1000;
-
-
     }
 
     public int getFund() {

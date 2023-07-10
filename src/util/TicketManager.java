@@ -1,4 +1,6 @@
+
 package util;
+
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -21,7 +23,7 @@ public class TicketManager {
         loadSeatMatrixFromFile();
     }
 
-    private void loadSeatMatrixFromFile() {
+    private static void loadSeatMatrixFromFile() {
         try (BufferedReader reader = new BufferedReader(new FileReader(seatMatrixFileName))) {
             String line;
             int row = 0;
@@ -45,7 +47,7 @@ public class TicketManager {
         }
     }
 
-    private void saveSeatMatrixToFile() {
+    private static void saveSeatMatrixToFile() {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(seatMatrixFileName))) {
             for (int row = 0; row < seatMatrix.length; row++) {
                 for (int col = 0; col < seatMatrix[row].length; col++) {
@@ -58,7 +60,7 @@ public class TicketManager {
         }
     }
 
-    public void showSeatMatrix() {
+    public static void showSeatMatrix() {
         System.out.println("\n\t\t\tScreen\n");
         System.out.print("  ");
         for (int col = 0; col < seatMatrix[0].length; col++) {
@@ -77,7 +79,7 @@ public class TicketManager {
         System.out.println();
     }
 
-    public void chooseSeat(String username, String filmName, int row, int col) {
+    public static void chooseSeat(String username, String filmName, int row, int col, String showTimes) {
         if (row < 0 || row >= seatMatrix.length || col < 0 || col >= seatMatrix[0].length) {
             System.out.println("Invalid seat selection.");
             return;
@@ -92,7 +94,7 @@ public class TicketManager {
         seatMatrix[row][col] = 'x';
 
         // Update ticket information
-        Ticket newTicket = new Ticket("", filmName, "", 0, null, row + "-" + col, 0);
+        Ticket newTicket = new Ticket("", filmName, "", 0, null, row + "-" + col, 0, "");
 
         List<Ticket> userTickets = ticketList.get(username);
         if (userTickets != null) {
@@ -106,7 +108,7 @@ public class TicketManager {
         saveSeatMatrixToFile();
     }
 
-    public void deleteTicket(String username, String filmName) {
+    public static void deleteTicket(String username, String filmName) {
         List<Ticket> tickets = ticketList.get(username);
         if (tickets != null) {
             for (Ticket ticket : tickets) {
@@ -122,7 +124,7 @@ public class TicketManager {
         }
     }
 
-    public int numberOfTickets(String username) {
+    public static int numberOfTickets(String username) {
         List<Ticket> tickets = ticketList.get(username);
         if (tickets != null) {
             return tickets.size();
@@ -130,7 +132,7 @@ public class TicketManager {
         return 0;
     }
 
-    public void printSeatMatrix() {
+    public static void printSeatMatrix() {
         System.out.println("---------------------------- Screen ----------------------------");
         char rowLabel = 'A';
         for (int row = 0; row < seatMatrix.length; row++) {
