@@ -37,6 +37,13 @@ public class User {
         return password;
     }
 
+
+
+    //    public void buyTicket(String filmName) {
+//        TicketManager.addTicket(this.userName, filmName);
+//    }
+
+
     public void refundTicket(String filmName) {
         TicketManager.deleteTicket(this.userName, filmName);
     }
