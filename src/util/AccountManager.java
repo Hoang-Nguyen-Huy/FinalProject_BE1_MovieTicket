@@ -100,12 +100,16 @@ public class AccountManager extends HashMap<String, User> {
         return null;
     }
 
-    public boolean checkAccount(String username, String pw) {
+    public boolean loginAccount(String username, String pw) {
         for (User user : this.values()) {
             if (user.getUserName().equals(username) && user.getPassword().equals(pw))
                 return true;
         }
         return false;
+    }
+
+    public void registerAccount(String username, String pw) {
+
     }
     public boolean isUserExists(String userName) {
         for (User user : this.values()) {

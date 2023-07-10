@@ -9,16 +9,20 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import comp.Seat;
 import comp.Ticket;
 
 public class TicketManager {
     static Map<String, List<Ticket>> ticketList = new HashMap<>();
     static char[][] seatMatrix = new char[5][11];
-
+    static int col = 5;
+    static int row = 11;
     static final String seatMatrixFileName = "src/data/seat.txt";
 
     static {
         loadSeatMatrixFromFile();
+    }
+    TicketManager() {
     }
 
     private static void loadSeatMatrixFromFile() {
@@ -49,8 +53,7 @@ public class TicketManager {
         }
     }
 
-    TicketManager() {
-    }
+
 
     public static void showSeatMatrix() {
         System.out.println("\n\t\t\tScreen\n");
@@ -70,9 +73,12 @@ public class TicketManager {
         }
         System.out.println();
     }
+    public void chooseFilm() {
+        System.out.println();
+    }
 
-    public static void chooseSeat(String username, String filmName, int row, int col) {
-        if (row < 0 || row >= seatMatrix.length || col < 0 || col >= seatMatrix[0].length) {
+    public void chooseSeat(String username, String filmName, int row, int col) {
+        if (row < 0 || row >= this.row || col < 0 || col >= this.col) {
             System.out.println("Invalid seat selection.");
             return;
         }
@@ -84,9 +90,9 @@ public class TicketManager {
         }
 
         seatMatrix[row][col] = 'x';
-
+        Seat userSeat = new Seat(row, col);
         // Update ticket information
-        Ticket newTicket = new Ticket(filmName, row, col);
+        Ticket newTicket = new Ticket(filmName, );
         ticketList.get(username).add(newTicket);
 
         saveSeatMatrixToFile();

@@ -1,14 +1,10 @@
 package run;
 
-import comp.Film;
+
 import ui.Menu;
-import user_roles.Admin;
-import user_roles.User;
 import util.AccountManager;
 import util.FilmManager;
-import util.TicketManager;
-
-import java.text.ParseException;
+import util.TextFileHandler;
 
 /*
 Nguyễn Huy Hoàng
@@ -28,18 +24,31 @@ public class Main {
             menu.printAll();
             choice = menu.getInteger();
 
-            switch (choice) {
-                case 1:
-                    if (accounts.checkAccount(menu.getUsername(), menu.getPassword())) {
-                        System.out.println("Login Successfully!");
-                    } else {
-                        System.out.println("Wrong username or password! Try again or Register.");
-                    }
-                    break;
-                case 2:
+            TextFileHandler fileHandler;
+            fileHandler = new TextFileHandler("data/film.txt");
+            films = (FilmManager) fileHandler.readFilms();
+            System.out.println(films);
+//            switch (choice) {
+//                case 1 -> {
+//                    if (accounts.loginAccount(menu.getUsername(), menu.getPassword())) {
+//                        System.out.println("Login Successfully!");
+//
+//                    } else {
+//                        System.out.println("Wrong username or password! Try again or Register.");
+//                    }
+//                }
+//                case 2 -> accounts.registerNewUser();
+//
+////                    String username, password;
+////                    do {
+////                        username = menu.getUsername();
+////                        password = menu.getPassword();
+////                    } while (!accounts.isUserExists(username));
+////                    accounts.registerAccount(username, password);
+//
+//            }
+//
 
-                    break;
-            }
 
         } while (choice != 0);
 

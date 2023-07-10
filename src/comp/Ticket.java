@@ -5,16 +5,16 @@ import java.time.LocalDate;
 
 public class Ticket extends Film {
 
-    String username;
-    String seat;
-    int price;
-    Date exportDate = java.sql.Date.valueOf(LocalDate.now());
+    private String username;
+    private Seat seat;
+    private int price;
+    private Date exportDate = java.sql.Date.valueOf(LocalDate.now());
 
-    public Ticket(String filmID, String name, String director, int duration, Date date, String seat, int price) {
+
+    public Ticket(String filmID, String name, String director, int duration, Date date, Seat seat, int price) {
         super(filmID, name, director, duration, date);
         this.seat = seat;
         this.price = price>0? price*1000:1000;
-        //exportDate auto generate at the time buying ticket.
     }
 
     @Override
