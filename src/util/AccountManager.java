@@ -67,6 +67,13 @@ public class AccountManager extends HashMap<String, User> {
         }
     }
 
+    public User loginAccount(String username, String pw) {
+        for (User user : this.values()) {
+            if (user.getUserName().equals(username) && user.getPassword().equals(pw))
+                return user;
+        }
+        return null;
+    }
 
     public void registerNewUser() {
         int counter = this.size() + 1;

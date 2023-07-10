@@ -8,7 +8,7 @@ public class Ticket extends Film {
 
     String username;
     String seat;
-    int price;
+
     Date exportDate = java.sql.Date.valueOf(LocalDate.now());
     String showTimes;
 

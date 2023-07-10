@@ -1,4 +1,3 @@
-
 package ui;
 
 import util.AccountManager;
@@ -27,7 +26,7 @@ public class Menu extends ArrayList<String> {
     public void emptyBalance(int balance) {
         if (balance == 0) {
             System.out.println("Please deposit money to buy ticket!");
-            System.out.print("Input an amount you want to deposit: ");
+            System.out.print("Input an amount of money you want to deposit: ");
         }
     }
 
@@ -41,6 +40,7 @@ public class Menu extends ArrayList<String> {
 
     public void adminMenu() {
         this.clear();
+
         this.add("Adjust Movie:");
         this.add("\t1. Add new movie.");
         this.add("\t2. Show all movie.");
@@ -53,23 +53,30 @@ public class Menu extends ArrayList<String> {
         this.add("\t8. Delete show.");
         this.add("\t0.Exit.");
     }
-    public int adminChoice() {
-        System.out.println("\t\t\tADMIN MENU");
-        System.out.println("\t1. Movie");
-        System.out.println("\t2. ShowTimes");
-        System.out.println("\t3. Edit ticket price");
-        System.out.println("\t0. Exit");
+    public int getChoice() {
         System.out.print("Input your choice:");
         int choice = Integer.parseInt(sc.nextLine());
         return choice;
     }
+
+
     public void printAll() {
         if (this.isEmpty())
             System.out.println("Empty list!");
         else {
             System.out.println("Menu:");
-            for (String m : this) 
-                System.out.println(m);   
+            for (String m : this)
+                System.out.println(m);
         }
+    }
+
+    public String getUsername() {
+        System.out.print("Input your username: ");
+        return sc.nextLine();
+    }
+
+    public String getPassword() {
+        System.out.print("Input your password: ");
+        return sc.nextLine();
     }
 }

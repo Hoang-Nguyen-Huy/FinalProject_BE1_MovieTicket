@@ -27,7 +27,7 @@ public class FilmManager extends HashMap<String, Film> {
     public void loadFilmsToList() {
         TextFileHandler loadFilm = new TextFileHandler(Film_URL);
         for (String[] line : loadFilm.readFilms()) {    //go through every line in text
-            for (int i=0; i<5; i++) {
+            for (int i=0; i<6; i++) {
                 String filmID = line[0];
                 String name = line[1];
                 String director = line[2];
@@ -38,7 +38,8 @@ public class FilmManager extends HashMap<String, Film> {
                 } catch (ParseException e) {
                     throw new RuntimeException(e);
                 }
-                Film temp = new Film(filmID, name, director, duration, date);
+                int price = Integer.parseInt(line[5]);
+                Film temp = new Film(filmID, name, director, duration, date, price);
                 this.put(filmID, temp);
             }
         }
@@ -88,8 +89,10 @@ public class FilmManager extends HashMap<String, Film> {
                 System.gc();
             }
         } while (date == null);
+        System.out.println("Enter film ticket price: ");
+        int price = Integer.parseInt(sc.nextLine());
 
-        Film newFilm = new Film(filmID, filmName, author, duration, date);
+        Film newFilm = new Film(filmID, filmName, author, duration, date, price);
         this.put(filmID, newFilm);
         storeNewFilm(this, filmID);
     }
@@ -129,9 +132,28 @@ public class FilmManager extends HashMap<String, Film> {
         } else {
             System.out.println("Film list:");
             this.forEach((k, v) -> {
-                System.out.println("\t" + v);
+                System.out.println("\tid: "+ k + " " + v );
             });
         }
     }
 
+    public void adjustFilmPrice() {
+        System.out.print("Input film ID you want to adjust: ");
+        String filmID = sc.nextLine();
+        System.out.print("Input new price: ");
+        int newPrice = Integer.parseInt(sc.nextLine());
+        for (String id: this.keySet()) {
+            if (id.equals(filmID)) {
+                this.get(id).setPrice(newPrice);
+                System.out.println("Adjust price successfully");
+                return;
+            }
+        }
+        System.out.println("Wrong film ID or getting error!");
+    }
+
+    public void updateFilm() {
+        // show các thành phần và hỏi xem cần thay đổi gì
+        // rồi set lại giá trị
+    }
 }

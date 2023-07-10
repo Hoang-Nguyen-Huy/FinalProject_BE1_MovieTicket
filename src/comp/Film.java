@@ -11,13 +11,15 @@ public class Film {
     protected String filmID, name, director;
     protected int duration;
     protected Date date;
+    int price;
 
-    public Film(String filmID, String name, String director, int duration, Date date) {
+    public Film(String filmID, String name, String director, int duration, Date date, int price) {
         this.filmID = filmID;
         this.name = name;
         this.director = director;
         this.duration = duration;
         this.date = date;
+        this.price = price;
     }
     public String getFilmId() {
         return filmID;
@@ -47,7 +49,10 @@ public class Film {
         this.date = date;
     }
 
-
+    public int getPrice() {
+        return price;
+    }
+    public void setPrice(int price) { this.price = price; }
     @Override
     public String toString() {
         return String.format("{\tFilm ID: %s,\n\t\tFilm Name: %s,\n\t\tDirector: %s,\n\t\tDuration: %s,\n\t\tDate: %s \n\t},",
