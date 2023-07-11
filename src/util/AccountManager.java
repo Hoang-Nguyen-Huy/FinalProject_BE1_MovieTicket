@@ -26,7 +26,7 @@ public class AccountManager extends HashMap<String, User> {
                     String userID = data[0];
                     String userName = data[1];
                     String password = data[2];
-                    int fund = Integer.parseInt(data[3]);
+                    int fund = Integer.parseInt(data[3].trim());
                     if (userID.charAt(0) == 'A') {
                         Admin admin = new Admin(userName, password, fund);
                         this.put(userID, admin);
@@ -69,7 +69,7 @@ public class AccountManager extends HashMap<String, User> {
 
     public User loginAccount(String username, String pw) {
         for (User user : this.values()) {
-            if (user.getUserName().equals(username) && user.getPassword().equals(pw))
+            if (user != null && user.getUserName().equals(username) && user.getPassword().equals(pw))
                 return user;
         }
         return null;

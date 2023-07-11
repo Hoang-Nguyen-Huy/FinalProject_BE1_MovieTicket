@@ -11,6 +11,9 @@ import util.TicketManager;
 import comp.showTimes;
 import comp.Ticket;
 import comp.Film;
+import java.util.List;
+import java.util.Date;
+import java.text.SimpleDateFormat;
 
 import java.text.ParseException;
 
@@ -33,7 +36,22 @@ public class Main {
             menu.printAll();
             choice = menu.getInteger();
             fileHandler = new TextFileHandler("src/data/film.txt");
-            films = (FilmManager) fileHandler.readFilms();
+            List<String[]> filmData = fileHandler.readFilms();
+            for (String[] line : filmData) {
+                String filmID = line[0];
+                String name = line[1];
+                String director = line[2];
+                int duration = Integer.parseInt(line[3]);
+                Date date = null;
+                try {
+                    date = new SimpleDateFormat(FilmManager.DATE_FORMAT).parse(line[4]);
+                } catch (ParseException e) {
+                    throw new RuntimeException(e);
+                }
+                int price = Integer.parseInt(line[5].trim());
+                Film temp = new Film(filmID, name, director, duration, date, price);
+                films.put(filmID, temp);
+            }
 
             switch (choice) {
                 case 1 -> {

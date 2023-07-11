@@ -13,7 +13,7 @@ class InvalidDateException extends Exception {
 }
 
 public class FilmManager extends HashMap<String, Film> {
-    final static String DATE_FORMAT = "dd/MM/yyyy";
+    public static String DATE_FORMAT = "dd/MM/yyyy";
     DateFormat f = new SimpleDateFormat(DATE_FORMAT);
     final static String Film_URL = "src\\data\\film.txt";
     final static String prevFilm_URL = "src\\data\\prevFilm.txt";
