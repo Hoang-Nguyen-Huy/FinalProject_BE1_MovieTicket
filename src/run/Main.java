@@ -57,9 +57,16 @@ public class Main {
 
             switch (choice) {
                 case 1 -> {
-                    User user = accounts.loginAccount(menu.getUsername(), menu.getPassword());
+                    String username = menu.getUsername();
+                    String password = menu.getPassword();
+                    User user = accounts.loginAccount(username, password);
                     if (user.getClass() == User.class) {
-                        menu.emptyBalance(user.getFund());
+                        // bat nhap fund neu fund == 0
+                        if (menu.checkAccountBalance(accounts, username) == 0) {
+                            System.out.println("May deo co tien trong tai khoan");
+                        } else {
+                            System.out.println("So du tai khoan cua may la: ");
+                        }
                         menu.userMenu();
                         int userChoice;
                         do {

@@ -2,8 +2,10 @@
 package user_roles;
 
 import util.TicketManager;
+import java.util.Scanner;
 
 public class User {
+    Scanner sc = new Scanner(System.in);
     protected String userName;
     protected String password;
     protected int fund;
@@ -11,7 +13,7 @@ public class User {
     public User(String userName, String password, int fund) {
         this.userName = userName;
         this.password = password;
-        this.fund = fund > 0 ? fund : 1000;
+        this.fund = fund > 0 ? fund : 0;
     }
 
     public int getFund() {

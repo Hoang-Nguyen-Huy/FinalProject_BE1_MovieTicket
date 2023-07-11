@@ -10,7 +10,7 @@ import user_roles.Admin;
 import user_roles.User;
 
 public class AccountManager extends HashMap<String, User> {
-    final static String fileName = "src\\data\\account.txt";
+    public static String fileName = "src\\data\\account.txt";
     Scanner sc = new Scanner(System.in);
     public AccountManager() {
         super();
@@ -44,24 +44,15 @@ public class AccountManager extends HashMap<String, User> {
     }
 
     private void saveUsersToFile() {
-
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(fileName))) {
-            this.forEach((k, v) -> {
-
-
-
-                String line = String.format("%s, %s, %s, %s",
-
-
-                        k, v.getUserName(), v.getPassword(), v.getFund()
-                );
-                try {
-                    bw.write(line);
-                    bw.newLine();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            });
+            for (Map.Entry<String, User> entry : this.entrySet()) {
+                String userID = entry.getKey();
+                User user = entry.getValue();
+                String line = String.format("%s, %s, %s, %d",
+                        userID, user.getUserName(), user.getPassword(), user.getFund());
+                bw.write(line);
+                bw.newLine();
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -105,6 +96,7 @@ public class AccountManager extends HashMap<String, User> {
         }
         return null;
     }
+
 
 
     public void registerNewUser() {

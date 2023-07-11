@@ -4,6 +4,9 @@ import util.AccountManager;
 
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 
 public class Menu extends ArrayList<String> {
     Scanner sc = new Scanner(System.in);
@@ -23,11 +26,23 @@ public class Menu extends ArrayList<String> {
         this.add("\t0. Exit.");
         this.add("Input your choice: ");
     }
-    public void emptyBalance(int balance) {
-        if (balance == 0) {
-            System.out.println("Please deposit money to buy ticket!");
-            System.out.print("Input an amount of money you want to deposit: ");
+
+    public int checkAccountBalance(AccountManager accountManager, String username) {
+        try (BufferedReader br = new BufferedReader(new FileReader(AccountManager.fileName))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] data = line.split(", ");
+                if (data.length == 4 && data[1].equals(username)) {
+                    int fund = Integer.parseInt(data[3].trim());
+                    if (fund == 0) {
+                        return 0;
+                    }
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+        return 1;
     }
 
     public void userMenu() {
@@ -79,4 +94,6 @@ public class Menu extends ArrayList<String> {
         System.out.print("Input your password: ");
         return sc.nextLine();
     }
+
+
 }
