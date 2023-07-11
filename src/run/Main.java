@@ -32,7 +32,7 @@ public class Main {
             menu.welcomeMenu();
             menu.printAll();
             choice = menu.getInteger();
-            fileHandler = new TextFileHandler("data/film.txt");
+            fileHandler = new TextFileHandler("src/data/film.txt");
             films = (FilmManager) fileHandler.readFilms();
 
             switch (choice) {

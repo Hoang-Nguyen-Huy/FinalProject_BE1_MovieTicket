@@ -13,7 +13,7 @@ public class Ticket extends Film {
     String showTimes;
 
     public Ticket(String filmID, String name, String director, int duration, Date date, String seat, int price, String showTimes) {
-        super(filmID, name, director, duration, date);
+        super(filmID, name, director, duration, date, price);
         this.seat = seat;
         this.price = price>0? price*1000:1000;
         this.showTimes = showTimes;
