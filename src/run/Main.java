@@ -63,7 +63,7 @@ public class Main {
                     if (user.getClass() == User.class) {
                         // bat nhap fund neu fund == 0
                         if (menu.checkAccountBalance(accounts, username) == 0) {
-                            System.out.println("May deo co tien trong tai khoan");
+                            accounts.updateFund(username);
                         } else {
                             System.out.println("So du tai khoan cua may la: ");
                         }

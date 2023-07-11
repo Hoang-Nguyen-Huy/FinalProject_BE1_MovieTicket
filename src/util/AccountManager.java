@@ -97,8 +97,6 @@ public class AccountManager extends HashMap<String, User> {
         return null;
     }
 
-
-
     public void registerNewUser() {
         int counter = this.size() + 1;
         String userID = String.format("f%03d", counter);
@@ -142,5 +140,42 @@ public class AccountManager extends HashMap<String, User> {
         }
         return false;
     }
+
+    public void updateFund(String userName) {
+        String tempFileName = "temp.txt";
+
+        try (BufferedReader br = new BufferedReader(new FileReader(fileName));
+             BufferedWriter bw = new BufferedWriter(new FileWriter(tempFileName))) {
+
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] data = line.split(", ");
+                if (data.length == 4 && data[1].equals(userName)) {
+                    int fund = Integer.parseInt(data[3].trim());
+                    if (fund == 0) {
+                        System.out.print("Input the amount of money you want to deposit (minimum 100): ");
+                        int newFund = Integer.parseInt(sc.nextLine());
+                        while (newFund < 100) {
+                            System.out.print("Invalid amount! Please input at least 100: ");
+                            newFund = Integer.parseInt(sc.nextLine());
+                        }
+                        line = String.format("%s, %s, %s, %d", data[0], data[1], data[2], newFund);
+                    }
+                }
+                bw.write(line);
+                bw.newLine();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        // Xóa tệp gốc và đổi tên tệp tạm thành tên tệp gốc
+        File originalFile = new File(fileName);
+        originalFile.delete();
+
+        File tempFile = new File(tempFileName);
+        tempFile.renameTo(originalFile);
+    }
+
 
 }
