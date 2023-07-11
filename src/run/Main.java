@@ -14,6 +14,7 @@ import comp.Film;
 import java.util.List;
 import java.util.Date;
 import java.text.SimpleDateFormat;
+import java.util.Scanner;
 
 import java.text.ParseException;
 
@@ -24,6 +25,7 @@ Final Project BE1 - Movie Ticket Booking System Online with Java
  */
 public class Main {
     public static void main (String[] args) {
+        Scanner sc = new Scanner(System.in);
         int choice;
         Menu menu = new Menu();
         AccountManager accounts = new AccountManager();
@@ -57,7 +59,6 @@ public class Main {
                 case 1 -> {
                     User user = accounts.loginAccount(menu.getUsername(), menu.getPassword());
                     if (user.getClass() == User.class) {
-                        System.out.println("Login Successfully!");
                         menu.emptyBalance(user.getFund());
                         menu.userMenu();
                         int userChoice;
@@ -65,7 +66,7 @@ public class Main {
                             menu.printAll();
                             userChoice = menu.getChoice();
                             switch (userChoice) {
-
+                                // chua tao case
                             }
                         } while (userChoice != 0);
 

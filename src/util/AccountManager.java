@@ -67,13 +67,45 @@ public class AccountManager extends HashMap<String, User> {
         }
     }
 
-    public User loginAccount(String username, String pw) {
-        for (User user : this.values()) {
-            if (user != null && user.getUserName().equals(username) && user.getPassword().equals(pw))
-                return user;
+    public User loginAccount(String username, String password) {
+        User user = getUserByUsernameAndPassword(username, password);
+        if (user != null) {
+            System.out.println("Login Successfully!");
+            return user;
+        } else {
+            System.out.println("Wrong username or password!");
+            return null;
+        }
+    }
+
+    private User getUserByUsernameAndPassword(String username, String password) {
+        try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] data = line.split(", ");
+                if (data.length == 4) {
+                    String userID = data[0];
+                    String userName = data[1];
+                    String pw = data[2];
+                    int fund = Integer.parseInt(data[3].trim());
+                    if (userName.equals(username) && pw.equals(password)) {
+                        if (userID.charAt(0) == 'A') {
+                            return new Admin(userName, pw, fund);
+                        } else {
+                            return new User(userName, pw, fund);
+                        }
+                    }
+                }
+            }
+        } catch (FileNotFoundException e) {
+            // File does not exist
+            System.out.println("Error: Account file not found!");
+        } catch (IOException e) {
+            e.printStackTrace();
         }
         return null;
     }
+
 
     public void registerNewUser() {
         int counter = this.size() + 1;
