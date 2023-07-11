@@ -1,6 +1,7 @@
 
 package run;
 
+import org.w3c.dom.Text;
 import ui.Menu;
 import user_roles.Admin;
 import user_roles.User;
@@ -64,8 +65,6 @@ public class Main {
                         // bat nhap fund neu fund == 0
                         if (menu.checkAccountBalance(accounts, username) == 0) {
                             accounts.updateFund(username);
-                        } else {
-                            System.out.println("So du tai khoan cua may la: ");
                         }
                         menu.userMenu();
                         int userChoice;
@@ -73,7 +72,35 @@ public class Main {
                             menu.printAll();
                             userChoice = menu.getChoice();
                             switch (userChoice) {
-                                // chua tao case
+                                case 1 -> {
+                                    // in ra danh sách các phim đang chiếu
+                                    TextFileHandler filmFileHandler = new TextFileHandler("src/data/film.txt");
+                                    System.out.println("List of Films:");
+                                    for (String[] line : filmData) {
+                                        String filmID = line[0];
+                                        String name = line[1];
+                                        String director = line[2];
+                                        int duration = Integer.parseInt(line[3]);
+                                        Date date = null;
+                                        try {
+                                            date = new SimpleDateFormat(FilmManager.DATE_FORMAT).parse(line[4]);
+                                        } catch (ParseException e) {
+                                            throw new RuntimeException(e);
+                                        }
+                                        int price = Integer.parseInt(line[5].trim());
+                                        System.out.println("Film ID: " + filmID);
+                                        System.out.println("Name: " + name);
+                                        System.out.println("Director: " + director);
+                                        System.out.println("Duration: " + duration + " minutes");
+                                        System.out.println("Date: " + new SimpleDateFormat("dd/MM/yyyy").format(date));
+                                        System.out.println("Price: $" + price);
+                                        System.out.println("-------------------------");
+                                    }
+
+
+                                    System.out.print("Enter film Name: ");
+
+                                } // mua ve
                             }
                         } while (userChoice != 0);
 
@@ -110,7 +137,7 @@ public class Main {
                             System.out.println("Wrong username or password! Try again or Register.");
                     }
 
-                }
+                } // end case 1
                 case 2 -> accounts.registerNewUser();
                 case 0 -> System.out.println("Bye! See you again.");
             }
