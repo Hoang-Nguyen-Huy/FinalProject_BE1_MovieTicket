@@ -2,3 +2,5 @@ f001,Avatar 2,James Cameron,165,30/11/2023, 55
 f002,Pink Panther,Metro Goldwyn Mayer,60,30/02/2025, 30
 f003,Mickey,Donald,120,05/08/2004, 45
 f004,Pink Panther,Metro Goldwyn Mayer,60,30/02/1999, 60
+f005,Doraemon,Fujiko,90,01/04/1973, 50
+f006,Civil War,Anthony Russo,170,06/11/2020, 100

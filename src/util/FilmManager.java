@@ -89,7 +89,7 @@ public class FilmManager extends HashMap<String, Film> {
                 System.gc();
             }
         } while (date == null);
-        System.out.println("Enter film ticket price: ");
+        System.out.print("Enter film ticket price: ");
         int price = Integer.parseInt(sc.nextLine());
 
         Film newFilm = new Film(filmID, filmName, author, duration, date, price);

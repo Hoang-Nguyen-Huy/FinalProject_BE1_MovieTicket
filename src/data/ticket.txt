@@ -2,3 +2,4 @@ vantho, f002, Metro Goldwyn Mayer, 60, C-3, 2pm
 vantho, f004, Metro Goldwyn Mayer, 60, E-2, 9am
 huyhoang, f003, Donald, 120, A-3, 2pm
 huyhoang, f004, Metro Goldwyn Mayer, 60, B-5, 9am
+huyhoang, f006, Anthony Russo, 170, A-8, 7pm

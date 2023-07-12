@@ -46,6 +46,8 @@ public class TextFileHandler extends File {
             writer.write(",");
             // format Date, only show dd/MM/yyyy
             writer.write(new SimpleDateFormat(DATE_FORMAT).format(filmList.get(filmID).getDate()));
+            writer.write(", ");
+            writer.write(String.valueOf(filmList.get(filmID).getPrice()));
             writer.newLine();
             writer.close();
         } catch (IOException e) {

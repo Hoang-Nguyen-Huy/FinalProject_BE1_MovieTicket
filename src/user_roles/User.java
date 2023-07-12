@@ -119,7 +119,7 @@ public class User {
         String ticketInfo = userName + ", "+ filmID + ", " + getDirector(filmID) + ", " + getDuration(filmID) + ", " + seatInfo + "-" + column + ", " + showTimesInfo;
 
         int price = getPrice(filmID);
-        System.out.println(" Gia tien cua bo phim do la: " + price);
+        System.out.println(" Price: " + price);
 
         AccountManager account = new AccountManager();
         account.fundAfterPurchasing(userName, price);
