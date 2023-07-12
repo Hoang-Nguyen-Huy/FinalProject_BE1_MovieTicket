@@ -42,7 +42,7 @@ public class showTimes {
             case 1:
                 return "9am";
             case 2:
-                return "2p";
+                return "2pm";
             case 3:
                 return "7pm";
             default:

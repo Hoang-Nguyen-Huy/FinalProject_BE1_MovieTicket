@@ -6,6 +6,7 @@ import util.TextFileHandler;
 import util.TicketManager;
 import comp.showTimes;
 
+import java.io.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -15,6 +16,8 @@ import java.util.List;
 
 public class User {
     Scanner sc = new Scanner(System.in);
+    private static final String filmFile = "src/data/film.txt";
+    private static final String ticketFile = "src/data/ticket.txt";
     protected String userName;
     protected String password;
     protected int fund;
@@ -51,7 +54,7 @@ public class User {
 
 
 
-    public void buyTicket() {
+    public void buyTicket(String userName) {
         System.out.println("-------------------------");
         // in ra danh sách các phim đang chiếu
         TextFileHandler filmFileHandler = new TextFileHandler("src/data/film.txt");
@@ -95,10 +98,29 @@ public class User {
         System.out.print("Enter the column number: ");
         int column = sc.nextInt();
         sc.nextLine(); // đọc dòng newline còn sót lại sau khi nhập số cột
+        String showTimesInfo = sT.handleUserChoice(sT.getUserChoice());
 
-        tM.chooseSeat(userName, filmName, row, column, sT.handleUserChoice(sT.getUserChoice()));
+        tM.chooseSeat(userName, filmName, row, column, showTimesInfo);
 
+        String seatInfo = "";
+        if (row == 1) {
+            seatInfo = "A";
+        } else if (row == 2) {
+            seatInfo = "B";
+        } else if (row == 3) {
+            seatInfo = "C";
+        } else if (row == 4) {
+            seatInfo = "D";
+        } else if (row == 5) {
+            seatInfo = "E";
+        }
 
+        String ticketInfo = userName + ", "+ filmName + ", " + getDirector(filmName) + ", " + getDuration(filmName) + ", " + seatInfo + "-" + column + ", " + showTimesInfo;
+
+        //nhap thong tin ve vao file ticket.txt
+        addingTicket(ticketInfo);
+        System.out.println(" Purchase successfully");
+        
     }
 
 
@@ -109,4 +131,45 @@ public class User {
     public int getNumTickets() {
         return TicketManager.numberOfTickets(this.userName);
     }
+
+    private String getDirector(String filmName) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(filmFile))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] filmData = line.split(",");
+                if (filmData[1].equals(filmName)) {
+                    return filmData[2];
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
+    private int getDuration(String filmName) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(filmFile))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] filmData = line.split(",");
+                if (filmData[1].equals(filmName)) {
+                    return Integer.parseInt(filmData[3]);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    private void addingTicket (String ticketInfo) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(ticketFile, true))) {
+            writer.write(ticketInfo);
+            writer.newLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
 }
