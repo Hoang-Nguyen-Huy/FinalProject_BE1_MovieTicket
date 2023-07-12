@@ -1,5 +1,4 @@
 huyhoang, f004, Metro Goldwyn Mayer, 60, B-3, 7pm
 vantho, f002, Metro Goldwyn Mayer, 60, C-3, 2pm
 vantho, f004, Metro Goldwyn Mayer, 60, E-2, 9am
-huyhoang, f004, Metro Goldwyn Mayer, 60, C-4, 7pm
 huyhoang, f001, James Cameron, 165, C-3, 2pm

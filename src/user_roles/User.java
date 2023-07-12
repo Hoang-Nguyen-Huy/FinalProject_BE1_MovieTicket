@@ -219,4 +219,26 @@ public class User {
         }
      }
 
+    public void removeTicket(String userName, String filmID, String seat, String showtime) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(ticketFile))) {
+            String line;
+            StringBuilder fileContent = new StringBuilder();
+            while ((line = reader.readLine()) != null) {
+                String[] data = line.split(", ");
+                if (data[0].equals(userName) && data[1].equals(filmID) && data[4].equals(seat) && data[5].equals(showtime)) {
+
+                } else {
+                    fileContent.append(line).append("\n");
+                }
+            }
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(ticketFile))) {
+                writer.write(fileContent.toString());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            System.out.println(" Ticket refund successfully!!!");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
