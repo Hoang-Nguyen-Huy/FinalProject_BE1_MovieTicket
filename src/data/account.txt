@@ -1,2 +1,0 @@
-f002, qtrung, trung123123, 500
-f001, huyhoang, hoang123123, 1000

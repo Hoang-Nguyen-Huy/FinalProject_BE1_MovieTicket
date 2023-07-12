@@ -1,55 +1,52 @@
 package comp;
 
+import util.TicketManager;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Scanner;
 
+
 public class showTimes {
     private static final String filmFile = "src/data/film.txt";
 
-    public void displayShowTimes(String filmID) {
+    public void displayShowTimes(String filmName) {
         try (BufferedReader reader = new BufferedReader(new FileReader(filmFile))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] filmData = line.split(",");
-                if (filmData[0].equals(filmID)) {
+                if (filmData[1].equals(filmName)) {
                     System.out.println("Show Times for Film: " + filmData[1]);
                     System.out.println("1. 9am");
                     System.out.println("2. 2pm");
                     System.out.println("3. 7pm");
-                    int choice = getUserChoice();
-                    handleUserChoice(choice);
                     return;
                 }
             }
-            System.out.println("Film ID not found.");
+            System.out.println("Film Name not found.");
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    private int getUserChoice() {
+    public int getUserChoice() {
         Scanner scanner = new Scanner(System.in);
-        System.out.print("Enter your choice (1-3): ");
+        System.out.print("Enter show times above (1-3): ");
         int choice = scanner.nextInt();
         return choice;
     }
 
-    private void handleUserChoice(int choice) {
+    public String handleUserChoice(int choice) {
         switch (choice) {
             case 1:
-                System.out.println("You selected 9am show time.");
-                break;
+                return "9am";
             case 2:
-                System.out.println("You selected 2pm show time.");
-                break;
+                return "2p";
             case 3:
-                System.out.println("You selected 7pm show time.");
-                break;
+                return "7pm";
             default:
-                System.out.println("Invalid choice.");
-                break;
+                return "Invalid choice";
         }
     }
 }

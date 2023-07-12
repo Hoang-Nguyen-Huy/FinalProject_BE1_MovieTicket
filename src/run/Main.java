@@ -73,33 +73,7 @@ public class Main {
                             userChoice = menu.getChoice();
                             switch (userChoice) {
                                 case 1 -> {
-                                    // in ra danh sách các phim đang chiếu
-                                    TextFileHandler filmFileHandler = new TextFileHandler("src/data/film.txt");
-                                    System.out.println("List of Films:");
-                                    for (String[] line : filmData) {
-                                        String filmID = line[0];
-                                        String name = line[1];
-                                        String director = line[2];
-                                        int duration = Integer.parseInt(line[3]);
-                                        Date date = null;
-                                        try {
-                                            date = new SimpleDateFormat(FilmManager.DATE_FORMAT).parse(line[4]);
-                                        } catch (ParseException e) {
-                                            throw new RuntimeException(e);
-                                        }
-                                        int price = Integer.parseInt(line[5].trim());
-                                        System.out.println("Film ID: " + filmID);
-                                        System.out.println("Name: " + name);
-                                        System.out.println("Director: " + director);
-                                        System.out.println("Duration: " + duration + " minutes");
-                                        System.out.println("Date: " + new SimpleDateFormat("dd/MM/yyyy").format(date));
-                                        System.out.println("Price: $" + price);
-                                        System.out.println("-------------------------");
-                                    }
-
-
-                                    System.out.print("Enter film Name: ");
-
+                                    user.buyTicket();
                                 } // mua ve
                             }
                         } while (userChoice != 0);
