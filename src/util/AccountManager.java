@@ -10,7 +10,7 @@ import user_roles.Admin;
 import user_roles.User;
 
 public class AccountManager extends HashMap<String, User> {
-    public static String fileName = "src\\data\\account.txt";
+    public static String fileName = "src/data/account.txt";
     Scanner sc = new Scanner(System.in);
     public AccountManager() {
         super();
