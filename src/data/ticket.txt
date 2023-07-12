@@ -1,2 +1,3 @@
-huyhoang, Pink Panther, Metro Goldwyn Mayer, 60, B-2, 9am
-huyhoang, Mickey, Donald, 120, A-9, 9am
+huyhoang, f004, Metro Goldwyn Mayer, 60, B-3, 7pm
+vantho, f002, Metro Goldwyn Mayer, 60, C-3, 2pm
+vantho, f004, Metro Goldwyn Mayer, 60, E-2, 9am

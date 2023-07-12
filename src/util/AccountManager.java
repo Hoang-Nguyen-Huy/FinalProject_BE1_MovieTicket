@@ -178,4 +178,35 @@ public class AccountManager extends HashMap<String, User> {
     }
 
 
+    public void fundAfterPurchasing (String username, int price) {
+        String tempFileName = "temp.txt";
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(fileName));
+             BufferedWriter writer = new BufferedWriter(new FileWriter(tempFileName))) {
+
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] data = line.split(", ");
+                if (data.length == 4 && data[1].equals(username)) {
+                    int fund = Integer.parseInt(data[3].trim());
+                    if (fund > price) {
+                        int newFund = fund - price;
+                        line = String.format("%s, %s, %s, %d", data[0], data[1], data[2], newFund);
+                    } else {
+                        System.out.println(" You don't have enough money in your account.");
+                    }
+                }
+                writer.write(line);
+                writer.newLine();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        // Xóa tệp gốc và đổi tên tệp tạm thành tên tệp gốc
+        File originalFile = new File(fileName);
+        originalFile.delete();
+
+        File tempFile = new File(tempFileName);
+        tempFile.renameTo(originalFile);
+    }
 }

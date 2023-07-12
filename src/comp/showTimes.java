@@ -11,12 +11,12 @@ import java.util.Scanner;
 public class showTimes {
     private static final String filmFile = "src/data/film.txt";
 
-    public void displayShowTimes(String filmName) {
+    public void displayShowTimes(String filmID) {
         try (BufferedReader reader = new BufferedReader(new FileReader(filmFile))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] filmData = line.split(",");
-                if (filmData[1].equals(filmName)) {
+                if (filmData[0].equals(filmID)) {
                     System.out.println("Show Times for Film: " + filmData[1]);
                     System.out.println("1. 9am");
                     System.out.println("2. 2pm");

@@ -4,6 +4,7 @@ package user_roles;
 import util.FilmManager;
 import util.TextFileHandler;
 import util.TicketManager;
+import util.AccountManager;
 import comp.showTimes;
 
 import java.io.*;
@@ -80,12 +81,12 @@ public class User {
             System.out.println("-------------------------");
         }
         // bắt người dùng nhập tên phim
-        System.out.print("Enter film Name: ");
-        String filmName = sc.nextLine();
+        System.out.print("Enter film ID: ");
+        String filmID = sc.nextLine();
 
         // hiển thị các suất chiếu cho phim đã chọn
         showTimes sT = new showTimes();
-        sT.displayShowTimes(filmName);
+        sT.displayShowTimes(filmID);
 
         // chọn vé và cập nhật thông tin vé
         TicketManager tM = new TicketManager();
@@ -100,7 +101,7 @@ public class User {
         sc.nextLine(); // đọc dòng newline còn sót lại sau khi nhập số cột
         String showTimesInfo = sT.handleUserChoice(sT.getUserChoice());
 
-        tM.chooseSeat(userName, filmName, row, column, showTimesInfo);
+        tM.chooseSeat(userName, filmID, row, column, showTimesInfo);
 
         String seatInfo = "";
         if (row == 1) {
@@ -115,12 +116,18 @@ public class User {
             seatInfo = "E";
         }
 
-        String ticketInfo = userName + ", "+ filmName + ", " + getDirector(filmName) + ", " + getDuration(filmName) + ", " + seatInfo + "-" + column + ", " + showTimesInfo;
+        String ticketInfo = userName + ", "+ filmID + ", " + getDirector(filmID) + ", " + getDuration(filmID) + ", " + seatInfo + "-" + column + ", " + showTimesInfo;
+
+        int price = getPrice(filmID);
+        System.out.println(" Gia tien cua bo phim do la: " + price);
+
+        AccountManager account = new AccountManager();
+        account.fundAfterPurchasing(userName, price);
 
         //nhap thong tin ve vao file ticket.txt
         addingTicket(ticketInfo);
-        System.out.println(" Purchase successfully");
-        
+        System.out.println(" Purchase successfully ^ ^. Thanks You <3");
+
     }
 
 
@@ -132,12 +139,12 @@ public class User {
         return TicketManager.numberOfTickets(this.userName);
     }
 
-    private String getDirector(String filmName) {
+    private String getDirector(String filmID) {
         try (BufferedReader reader = new BufferedReader(new FileReader(filmFile))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] filmData = line.split(",");
-                if (filmData[1].equals(filmName)) {
+                if (filmData[0].equals(filmID)) {
                     return filmData[2];
                 }
             }
@@ -147,12 +154,12 @@ public class User {
         return "";
     }
 
-    private int getDuration(String filmName) {
+    private int getDuration(String filmID) {
         try (BufferedReader reader = new BufferedReader(new FileReader(filmFile))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] filmData = line.split(",");
-                if (filmData[1].equals(filmName)) {
+                if (filmData[0].equals(filmID)) {
                     return Integer.parseInt(filmData[3]);
                 }
             }
@@ -171,5 +178,19 @@ public class User {
         }
     }
 
+    private int getPrice (String filmID) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(filmFile))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] filmData = line.split(",");
+                if (filmData[0].equals(filmID)) {
+                    return Integer.parseInt(filmData[5].trim());
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
 
 }
