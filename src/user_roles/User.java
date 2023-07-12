@@ -193,4 +193,30 @@ public class User {
         return 0;
     }
 
+    public void showTicket(String userName) {
+        System.out.println("-------------------------");
+        try (BufferedReader reader = new BufferedReader(new FileReader(ticketFile))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] data = line.split(", ");
+                if (data[0].equals(userName)) {
+                    String filmID = data[1];
+                    String director = data[2];
+                    int duration = Integer.parseInt(data[3].trim());
+                    String seat = data[4];
+                    String showTimesInfo = data[5];
+
+                    System.out.println("Film ID: " + filmID);
+                    System.out.println("Director: " + director);
+                    System.out.println("Duration: " + duration + " minutes");
+                    System.out.println("Seat: " + seat);
+                    System.out.println("Show Times: " + showTimesInfo);
+                    System.out.println("-------------------------");
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+     }
+
 }
