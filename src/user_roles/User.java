@@ -236,6 +236,9 @@ public class User {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            int price = getPrice(filmID);
+            AccountManager account = new AccountManager();
+            account.fundAfterRefunding(userName, price);
             System.out.println(" Ticket refund successfully!!!");
         } catch (IOException e) {
             e.printStackTrace();
