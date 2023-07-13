@@ -72,19 +72,19 @@ public class Main {
                             menu.printAll();
                             userChoice = menu.getChoice();
                             switch (userChoice) {
-                                case 1 -> user.buyTicket(username);
-                                case 2 -> user.showTicket(username);
-                                case 3 -> {
-                                    user.showTicket(username);
-                                    System.out.print("Enter the film ID: ");
-                                    String filmID = sc.nextLine();
-                                    System.out.print("Enter the seat: ");
-                                    String seat = sc.nextLine();
-                                    System.out.print("Enter the show time: ");
-                                    String showtime = sc.nextLine();
+                                //case 1 -> user.buyTicket(username);
+                                //case 2 -> user.showTicket(username);
+                                //case 3 -> {
+                                  //  user.showTicket(username);
+                                  //  System.out.print("Enter the film ID: ");
+                                  //  String filmID = sc.nextLine();
+                                  //  System.out.print("Enter the seat: ");
+                                  //  String seat = sc.nextLine();
+                                  //  System.out.print("Enter the show time: ");
+                                  //  String showtime = sc.nextLine();
 
-                                    user.removeTicket(username, filmID, seat, showtime);
-                                }
+                                  //  user.removeTicket(username, filmID, seat, showtime);
+                               // }
                             }
                         } while (userChoice != 0);
 
