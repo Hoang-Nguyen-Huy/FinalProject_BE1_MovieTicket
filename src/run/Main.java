@@ -99,7 +99,7 @@ public class Main {
                             switch (adminChoice) {
                                 case 1 -> films.addNewFilm();
                                 case 2 -> films.showAllFilms();
-                                case 3 -> films.updateFilm();   //bổ sung bên Film Manager
+                                case 3 -> films.updateFilm();
                                 case 4 -> films.deleteFilm();
 
                                 // case 5->8: Ông tạo thêm 1 biến chứa các show của các bộ phim

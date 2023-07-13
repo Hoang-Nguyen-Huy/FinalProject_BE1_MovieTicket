@@ -6,6 +6,10 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Scanner;
+import java.util.List;
+import java.io.IOException;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 
 import comp.Film;
 
@@ -15,8 +19,8 @@ class InvalidDateException extends Exception {
 public class FilmManager extends HashMap<String, Film> {
     public static String DATE_FORMAT = "dd/MM/yyyy";
     DateFormat f = new SimpleDateFormat(DATE_FORMAT);
-    final static String Film_URL = "src\\data\\film.txt";
-    final static String prevFilm_URL = "src\\data\\prevFilm.txt";
+    final static String Film_URL = "src/data/film.txt";
+    final static String prevFilm_URL = "src/data/prevFilm.txt";
     Scanner sc = new Scanner(System.in);
 
 
@@ -153,7 +157,97 @@ public class FilmManager extends HashMap<String, Film> {
     }
 
     public void updateFilm() {
-        // show các thành phần và hỏi xem cần thay đổi gì
-        // rồi set lại giá trị
+        System.out.println("-------------------------");
+        TextFileHandler filmFileHandler = new TextFileHandler(Film_URL);
+        List<String[]> filmData = filmFileHandler.readFilms();
+        // in ra danh sach cac bo phim dang chieu
+        for (String[] line : filmData) {
+            String filmID = line[0];
+            String name = line[1];
+            String director = line[2];
+            int duration = Integer.parseInt(line[3].trim());
+            Date date = null;
+            try {
+                date = new SimpleDateFormat(DATE_FORMAT).parse(line[4]);
+            } catch (ParseException e) {
+                throw new RuntimeException(e);
+            }
+            int price = Integer.parseInt(line[5].trim());
+
+            System.out.println("Film ID: " + filmID);
+            System.out.println("Film name: " + name);
+            System.out.println("Director: " + director);
+            System.out.println("Duration: " + duration);
+            System.out.println("Date: " + new SimpleDateFormat("dd//MM//yyyy").format(date));
+            System.out.println("Price: $" + price);
+            System.out.println("-------------------------");
+        }
+
+        System.out.print("Enter the film ID you want to update: ");
+        String filmIDToUpdate = sc.nextLine();
+        // bat dau hoi muon update thong tin nao
+        for (String[] line : filmData) {
+            String filmID = line[0];
+            if (filmID.equals(filmIDToUpdate)) {
+                System.out.println("Which information do you want to update?");
+                System.out.println("1. Film Name");
+                System.out.println("2. Director");
+                System.out.println("3. Duration");
+                System.out.println("4. Date");
+                System.out.println("5. Price");
+                System.out.print("Enter your choice: ");
+                int choice = Integer.parseInt(sc.nextLine());
+
+                switch (choice) {
+                    case 1:
+                        System.out.print("Enter the new film name: ");
+                        String newName = sc.nextLine();
+                        line[1] = newName;
+                        break;
+                    case 2:
+                        System.out.print("Enter the new director: ");
+                        String newDirector = sc.nextLine();
+                        line[2] = newDirector;
+                        break;
+                    case 3:
+                        System.out.print("Enter the new duration: ");
+                        int newDuration = Integer.parseInt(sc.nextLine());
+                        line[3] = String.valueOf(newDuration);
+                        break;
+                    case 4:
+                        System.out.print("Enter the new date (dd/MM/yyyy): ");
+                        String newDateStr = sc.nextLine();
+                        DateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT);
+                        try {
+                            Date newDate = dateFormat.parse(newDateStr);
+                            line[4] = dateFormat.format(newDate);
+                        } catch (ParseException e) {
+                            System.out.println("Invalid date format. The date will not be updated.");
+                        }
+                        break;
+                    case 5:
+                        System.out.print("Enter the new price: ");
+                        int newPrice = Integer.parseInt(sc.nextLine());
+                        line[5] = String.valueOf(newPrice);
+                        break;
+                    default:
+                        System.out.println("Invalid choice. No information will be updated.");
+                }
+                break;
+            }
+        }
+        // Write the updated film data back to the file
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(Film_URL))) {
+            for (String[] line : filmData) {
+                String updatedLine = String.join(",", line);
+                writer.write(updatedLine);
+                writer.newLine();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("Film updated successfully!");
+
     }
 }
