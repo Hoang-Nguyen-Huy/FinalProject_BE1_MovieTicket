@@ -5,10 +5,7 @@ import org.w3c.dom.Text;
 import ui.Menu;
 import user_roles.Admin;
 import user_roles.User;
-import util.AccountManager;
-import util.FilmManager;
-import util.TextFileHandler;
-import util.TicketManager;
+import util.*;
 import comp.showTimes;
 import comp.Ticket;
 import comp.Film;
@@ -33,7 +30,7 @@ public class Main {
         FilmManager films = new FilmManager();
         TicketManager tickets;
         TextFileHandler fileHandler;
-        showTimes showTimes = new showTimes();
+        ShowTimesManager showtimes = new ShowTimesManager();
         do {
             menu.welcomeMenu();
             menu.printAll();
@@ -101,7 +98,7 @@ public class Main {
                                 case 2 -> films.showAllFilms();
                                 case 3 -> films.updateFilm();
                                 case 4 -> films.deleteFilm();
-
+                                case 5 -> showtimes.addNewShowTime();
                                 // case 5->8: Ông tạo thêm 1 biến chứa các show của các bộ phim
                                 // tạo txt chứa "filmid, 1, 2, 3" cho từng ca chiếu chẳng hạn
                                 // đọc file lưu showTimes vào showTimes manager - làm tương tự các manager khác

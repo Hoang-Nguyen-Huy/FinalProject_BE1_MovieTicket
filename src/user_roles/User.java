@@ -54,7 +54,7 @@ public class User {
     }
 
 
-
+    /*
     public void buyTicket(String userName) {
         System.out.println("-------------------------");
         // in ra danh sách các phim đang chiếu
@@ -129,8 +129,9 @@ public class User {
         System.out.println(" Purchase successfully ^ ^. Thanks You <3");
 
     }
+    */
 
-
+    /*
     public void refundTicket(String filmName) {
         TicketManager.deleteTicket(this.userName, filmName);
     }
@@ -244,4 +245,6 @@ public class User {
             e.printStackTrace();
         }
     }
+    */
 }
+

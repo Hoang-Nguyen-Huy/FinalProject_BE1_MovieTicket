@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.text.DateFormat;
 import java.util.*;
+import java.text.ParseException;
 
 public class ShowTimesManager extends HashMap<String, List<showTimes>> {
     final static String ShowTimes_URL = "src/data/showtimes.txt";
@@ -109,7 +110,7 @@ public class ShowTimesManager extends HashMap<String, List<showTimes>> {
             return;
         }
 
-        ShowTime showTimeToUpdate = showTimes.get(index);
+        showTimes showTimeToUpdate = showTimes.get(index);
         System.out.println("Which information do you want to update?");
         System.out.println("1. Theater ID");
         System.out.println("2. Date");
@@ -121,7 +122,7 @@ public class ShowTimesManager extends HashMap<String, List<showTimes>> {
             case 1:
                 System.out.print("Enter the new theater ID: ");
                 String newTheaterID = sc.nextLine();
-                showTimeToUpdate.setTheaterID(newTheaterID);
+                ((comp.showTimes) showTimeToUpdate).setTheaterID(newTheaterID);
                 break;
             case 2:
                 System.out.print("Enter the new date (dd/MM/yyyy): ");
@@ -129,7 +130,7 @@ public class ShowTimesManager extends HashMap<String, List<showTimes>> {
                 DateFormat dateFormat = new SimpleDateFormat(FilmManager.DATE_FORMAT);
                 try {
                     Date newDate = dateFormat.parse(newDateStr);
-                    showTimeToUpdate.setDate(newDate);
+                    ((comp.showTimes)showTimeToUpdate).setDate(newDate);
                 } catch (ParseException e) {
                     System.out.println("Invalid date format. The date will not be updated.");
                 }
@@ -137,7 +138,7 @@ public class ShowTimesManager extends HashMap<String, List<showTimes>> {
             case 3:
                 System.out.print("Enter the new available seats: ");
                 int newAvailableSeats = Integer.parseInt(sc.nextLine());
-                showTimeToUpdate.setAvailableSeats(newAvailableSeats);
+                ((comp.showTimes)showTimeToUpdate).setAvailableSeats(newAvailableSeats);
                 break;
             default:
                 System.out.println("Invalid choice. No information will be updated.");
@@ -171,7 +172,7 @@ public class ShowTimesManager extends HashMap<String, List<showTimes>> {
             return;
         }
 
-        ShowTime deletedShowTime = showTimes.remove(index);
+        showTimes deletedShowTime = showTimes.remove(index);
         storeAllShowTimes();
         System.out.println("Showtime deleted successfully!");
     }
