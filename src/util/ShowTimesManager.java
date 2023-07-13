@@ -91,67 +91,77 @@ public class ShowTimesManager extends HashMap<String, List<showTimes>> {
     }
 
     public void updateShowTime() {
-        System.out.println("-------------------------");
         System.out.print("Enter the film ID of the showtime you want to update: ");
         String filmID = sc.nextLine();
-        if (!this.containsKey(filmID)) {
-            System.out.println("Film ID not found!");
-            return;
-        }
 
-        List<showTimes> showTimes = this.get(filmID);
-        System.out.println("Show Times for Film ID " + filmID + ":");
-        for (int i = 0; i < showTimes.size(); i++) {
-            System.out.println("Show Time " + (i + 1));
-            System.out.println("\tTheater ID: " + showTimes.get(i).getTheaterID());
-            System.out.println("\tDate: " + new SimpleDateFormat(FilmManager.DATE_FORMAT).format(showTimes.get(i).getDate()));
-            System.out.println("\tAvailable Seats: " + showTimes.get(i).getAvailableSeats());
-        }
+        System.out.print("Enter the theater ID of the showtime you want to update: ");
+        String theaterID = sc.nextLine();
 
-        System.out.print("Enter the index of the showtime you want to update: ");
-        int index = Integer.parseInt(sc.nextLine()) - 1;
-        if (index < 0 || index >= showTimes.size()) {
-            System.out.println("Invalid index!");
-            return;
-        }
+        TimesFileHandler timesFileHandler = new TimesFileHandler(ShowTimes_URL);
+        List<String[]> timesData = timesFileHandler.readShowTimes();
+        boolean foundShowTime = false;
 
-        showTimes showTimeToUpdate = showTimes.get(index);
-        System.out.println("Which information do you want to update?");
-        System.out.println("1. Theater ID");
-        System.out.println("2. Date");
-        System.out.println("3. Available Seats");
-        System.out.print("Enter your choice: ");
-        int choice = Integer.parseInt(sc.nextLine());
+        for (String[] line : timesData) {
+            String currentFilmID = line[0];
+            String currentTheaterID = line[1];
 
-        switch (choice) {
-            case 1:
-                System.out.print("Enter the new theater ID: ");
-                String newTheaterID = sc.nextLine();
-                ((comp.showTimes) showTimeToUpdate).setTheaterID(newTheaterID);
-                break;
-            case 2:
-                System.out.print("Enter the new date (dd/MM/yyyy): ");
-                String newDateStr = sc.nextLine();
-                DateFormat dateFormat = new SimpleDateFormat(FilmManager.DATE_FORMAT);
-                try {
-                    Date newDate = dateFormat.parse(newDateStr);
-                    ((comp.showTimes)showTimeToUpdate).setDate(newDate);
-                } catch (ParseException e) {
-                    System.out.println("Invalid date format. The date will not be updated.");
+            if (currentFilmID.equals(filmID) && currentTheaterID.equals(theaterID)) {
+                foundShowTime = true;
+
+                System.out.println("Show Time Found:");
+                System.out.println("Film ID: " + currentFilmID);
+                System.out.println("Theater ID: " + currentTheaterID);
+                System.out.println("Date: " + line[2]);
+                System.out.println("Available Seats: " + line[3]);
+
+                System.out.println("Which information do you want to update?");
+                System.out.println("1. Date");
+                System.out.println("2. Available Seats");
+                System.out.print("Enter your choice: ");
+                int choice = Integer.parseInt(sc.nextLine());
+
+                switch (choice) {
+                    case 1:
+                        System.out.print("Enter the new date (dd/MM/yyyy): ");
+                        String newDateStr = sc.nextLine();
+                        if (isDateValid(newDateStr)) {
+                            line[2] = newDateStr;
+                            System.out.println("Date updated successfully.");
+                        } else {
+                            System.out.println("Invalid date format. Date will not be updated.");
+                        }
+                        break;
+                    case 2:
+                        System.out.print("Enter the new number of available seats: ");
+                        int newSeats = Integer.parseInt(sc.nextLine());
+                        line[3] = String.valueOf(newSeats);
+                        System.out.println("Available seats updated successfully.");
+                        break;
+                    default:
+                        System.out.println("Invalid choice. No information will be updated.");
                 }
                 break;
-            case 3:
-                System.out.print("Enter the new available seats: ");
-                int newAvailableSeats = Integer.parseInt(sc.nextLine());
-                ((comp.showTimes)showTimeToUpdate).setAvailableSeats(newAvailableSeats);
-                break;
-            default:
-                System.out.println("Invalid choice. No information will be updated.");
+            }
         }
 
-        storeAllShowTimes();
-        System.out.println("Showtime updated successfully!");
+        if (!foundShowTime) {
+            System.out.println("Show Time with Film ID " + filmID + " and Theater ID " + theaterID + " not found.");
+        } else {
+            // Write the updated showtimes data back to the file
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(ShowTimes_URL))) {
+                for (String[] line : timesData) {
+                    String updatedLine = String.join(",", line);
+                    writer.write(updatedLine);
+                    writer.newLine();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            System.out.println("Show times updated successfully!!!");
+        }
     }
+
 
     public void deleteShowTime() {
         System.out.print("Enter the film ID of the showtime you want to delete: ");
