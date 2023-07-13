@@ -178,7 +178,7 @@ public class FilmManager extends HashMap<String, Film> {
             System.out.println("Film name: " + name);
             System.out.println("Director: " + director);
             System.out.println("Duration: " + duration);
-            System.out.println("Date: " + new SimpleDateFormat("dd//MM//yyyy").format(date));
+            System.out.println("Date: " + new SimpleDateFormat("dd/MM/yyyy").format(date));
             System.out.println("Price: $" + price);
             System.out.println("-------------------------");
         }

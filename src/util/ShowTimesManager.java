@@ -2,9 +2,7 @@ package util;
 
 import comp.showTimes;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.text.SimpleDateFormat;
 import java.text.DateFormat;
 import java.util.*;
@@ -12,6 +10,7 @@ import java.text.ParseException;
 
 public class ShowTimesManager extends HashMap<String, List<showTimes>> {
     final static String ShowTimes_URL = "src/data/showtimes.txt";
+    public static String DATE_FORMAT = "dd/MM/yyyy";
     final static String prevShowTimes_URL = "src/data/prevShowTimes.txt";
     Scanner sc = new Scanner(System.in);
 
@@ -70,18 +69,24 @@ public class ShowTimesManager extends HashMap<String, List<showTimes>> {
     }
 
     public void showAllShowTimes() {
-        if (this.isEmpty()) {
-            System.out.println("Empty list!");
-        } else {
-            System.out.println("Show Times list:");
-            this.forEach((filmID, showTimes) -> {
-                System.out.println("Film ID: " + filmID);
-                for (showTimes showTime : showTimes) {
-                    System.out.println("\tTheater ID: " + showTime.getTheaterID());
-                    System.out.println("\tDate: " + new SimpleDateFormat(FilmManager.DATE_FORMAT).format(showTime.getDate()));
-                    System.out.println("\tAvailable Seats: " + showTime.getAvailableSeats());
-                }
-            });
+        System.out.println("-------------------------");
+        TimesFileHandler timesFileHandler = new TimesFileHandler(ShowTimes_URL);
+        List<String[]> timesData = timesFileHandler.readShowTimes();
+        for (String[] line : timesData) {
+            String filmID = line[0];
+            String theaterID = line[1];
+            Date date = null;
+            try {
+                date = new SimpleDateFormat(DATE_FORMAT).parse(line[2]);
+            } catch (ParseException e) {
+                throw new RuntimeException(e);
+            }
+            int seats = Integer.parseInt(line[3].trim());
+            System.out.println("Film ID: " + filmID);
+            System.out.println("Theater ID: " + theaterID);
+            System.out.println("Date: " + new SimpleDateFormat("dd/MM/yyyy").format(date));
+            System.out.println("Available Seats: " + seats);
+            System.out.println("-------------------------");
         }
     }
 
