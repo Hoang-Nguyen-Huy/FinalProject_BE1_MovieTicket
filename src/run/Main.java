@@ -102,6 +102,7 @@ public class Main {
                                 case 5 -> showtimes.addNewShowTime();
                                 case 6 -> showtimes.showAllShowTimes();
                                 case 7 -> showtimes.updateShowTime();
+                                case 8 -> showtimes.deleteShowTime();
                                 // case 5->8: Ông tạo thêm 1 biến chứa các show của các bộ phim
                                 // tạo txt chứa "filmid, 1, 2, 3" cho từng ca chiếu chẳng hạn
                                 // đọc file lưu showTimes vào showTimes manager - làm tương tự các manager khác

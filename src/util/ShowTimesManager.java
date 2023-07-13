@@ -166,31 +166,43 @@ public class ShowTimesManager extends HashMap<String, List<showTimes>> {
     public void deleteShowTime() {
         System.out.print("Enter the film ID of the showtime you want to delete: ");
         String filmID = sc.nextLine();
-        if (!this.containsKey(filmID)) {
-            System.out.println("Film ID not found!");
-            return;
+
+        System.out.print("Enter the theater ID of the showtime you want to delete: ");
+        String theaterID = sc.nextLine();
+
+        TimesFileHandler timesFileHandler = new TimesFileHandler(ShowTimes_URL);
+        List<String[]> timesData = timesFileHandler.readShowTimes();
+        boolean foundShowTime = false;
+
+        for (Iterator<String[]> iterator = timesData.iterator(); iterator.hasNext();) {
+            String[] line = iterator.next();
+            String currentFilmID = line[0];
+            String currentTheaterID = line[1];
+
+            if (currentFilmID.equals(filmID) && currentTheaterID.equals(theaterID)) {
+                foundShowTime = true;
+                iterator.remove();
+                System.out.println("Showtime deleted successfully!");
+                break;
+            }
         }
 
-        List<showTimes> showTimes = this.get(filmID);
-        System.out.println("Show Times for Film ID " + filmID + ":");
-        for (int i = 0; i < showTimes.size(); i++) {
-            System.out.println("Show Time " + (i + 1));
-            System.out.println("\tTheater ID: " + showTimes.get(i).getTheaterID());
-            System.out.println("\tDate: " + new SimpleDateFormat(FilmManager.DATE_FORMAT).format(showTimes.get(i).getDate()));
-            System.out.println("\tAvailable Seats: " + showTimes.get(i).getAvailableSeats());
+        if (!foundShowTime) {
+            System.out.println("Show Time with Film ID " + filmID + " and Theater ID " + theaterID + " not found.");
+        } else {
+            // Write the updated showtimes data back to the file
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(ShowTimes_URL))) {
+                for (String[] line : timesData) {
+                    String updatedLine = String.join(",", line);
+                    writer.write(updatedLine);
+                    writer.newLine();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
-
-        System.out.print("Enter the index of the showtime you want to delete: ");
-        int index = Integer.parseInt(sc.nextLine()) - 1;
-        if (index < 0 || index >= showTimes.size()) {
-            System.out.println("Invalid index!");
-            return;
-        }
-
-        showTimes deletedShowTime = showTimes.remove(index);
-        storeAllShowTimes();
-        System.out.println("Showtime deleted successfully!");
     }
+
 
     private void addShowTime(showTimes showTime) {
         String filmID = showTime.getFilmID();
