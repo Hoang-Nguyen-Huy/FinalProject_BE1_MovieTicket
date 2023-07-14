@@ -7,11 +7,18 @@ import java.text.SimpleDateFormat;
 import java.text.DateFormat;
 import java.util.*;
 import java.text.ParseException;
+import java.io.IOException;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
 
 public class ShowTimesManager extends HashMap<String, List<showTimes>> {
     final static String ShowTimes_URL = "src/data/showtimes.txt";
     public static String DATE_FORMAT = "dd/MM/yyyy";
+
     final static String prevShowTimes_URL = "src/data/prevShowTimes.txt";
+
+    final static String Film_URL = "src/data/film.txt";
     Scanner sc = new Scanner(System.in);
 
     public ShowTimesManager() {
@@ -259,6 +266,73 @@ public class ShowTimesManager extends HashMap<String, List<showTimes>> {
             return true;
         } catch (Exception e) {
             return false;
+        }
+    }
+
+    public void seatsAfterPurchased(String filmID, String theater) {
+        String tempFileName = "temp.txt";
+        try (BufferedReader reader = new BufferedReader(new FileReader(ShowTimes_URL));
+             BufferedWriter writer = new BufferedWriter(new FileWriter(tempFileName))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] data = line.split(",");
+                if (data[0].equals(filmID) && data[1].equals(theater)) {
+                    int availableSeats = Integer.parseInt(data[3].trim());
+                    int updatedSeats = availableSeats - 1;
+                    line = data[0] + "," + data[1] + "," + data[2] + "," + updatedSeats;
+                }
+                writer.write(line);
+                writer.newLine();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        // Xóa tệp gốc và đổi tên tệp tạm thành tên tệp gốc
+        File originalFile = new File(ShowTimes_URL);
+        originalFile.delete();
+
+        File tempFile = new File(tempFileName);
+        tempFile.renameTo(originalFile);
+    }
+
+
+
+    public void displayShowTimes(String filmID) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(Film_URL))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] filmData = line.split(",");
+                if (filmData[0].equals(filmID)) {
+                    System.out.println("Show Times for Film: " + filmData[1]);
+                    System.out.println("1. 9am");
+                    System.out.println("2. 2pm");
+                    System.out.println("3. 7pm");
+                    return;
+                }
+            }
+            System.out.println("Film Name not found.");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public int getUserChoice() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter show times above (1-3): ");
+        int choice = scanner.nextInt();
+        return choice;
+    }
+
+    public static String handleUserChoice(int choice) {
+        switch (choice) {
+            case 1:
+                return "9am";
+            case 2:
+                return "2pm";
+            case 3:
+                return "7pm";
+            default:
+                return "Invalid choice";
         }
     }
 }

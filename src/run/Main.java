@@ -69,7 +69,7 @@ public class Main {
                             menu.printAll();
                             userChoice = menu.getChoice();
                             switch (userChoice) {
-                                //case 1 -> user.buyTicket(username);
+                                case 1 -> user.buyTicket(username);
                                 //case 2 -> user.showTicket(username);
                                 //case 3 -> {
                                   //  user.showTicket(username);

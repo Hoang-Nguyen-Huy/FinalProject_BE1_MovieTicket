@@ -6,6 +6,8 @@ import util.TextFileHandler;
 import util.TicketManager;
 import util.AccountManager;
 import comp.showTimes;
+import util.TimesFileHandler;
+import util.ShowTimesManager;
 
 import java.io.*;
 import java.text.ParseException;
@@ -19,6 +21,8 @@ public class User {
     Scanner sc = new Scanner(System.in);
     private static final String filmFile = "src/data/film.txt";
     private static final String ticketFile = "src/data/ticket.txt";
+
+    private static final String showtimesFile = "src/data/showtimes.txt";
     protected String userName;
     protected String password;
     protected int fund;
@@ -54,7 +58,7 @@ public class User {
     }
 
 
-    /*
+
     public void buyTicket(String userName) {
         System.out.println("-------------------------");
         // in ra danh sách các phim đang chiếu
@@ -84,13 +88,41 @@ public class User {
         System.out.print("Enter film ID: ");
         String filmID = sc.nextLine();
 
+        // xuất các suất chiếu và các rạp của filmID
+        System.out.println("-------------------------");
+        try (BufferedReader reader = new BufferedReader(new FileReader(showtimesFile))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] data = line.split(",");
+                if (data[0].equals(filmID)) {
+                    String theaterID = data[1];
+                    String date = data[2];
+                    int availableSeats = Integer.parseInt(data[3]);
+
+                    System.out.println("Film ID: " + filmID);
+                    System.out.println("Theater: " + theaterID);
+                    System.out.println("Show day: " + date);
+                    System.out.println("Available Seat: " + availableSeats);
+                    System.out.println("-------------------------");
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        // bắt chọn rạp chiếu
+        System.out.print("Enter theater: ");
+        String theater = sc.nextLine();
+
         // hiển thị các suất chiếu cho phim đã chọn
-        showTimes sT = new showTimes();
-        sT.displayShowTimes(filmID);
+        ShowTimesManager showTimesManager = new ShowTimesManager();
+        showTimesManager.displayShowTimes(filmID);
+
 
         // chọn vé và cập nhật thông tin vé
         TicketManager tM = new TicketManager();
         tM.showSeatMatrix();
+
 
 
         // yêu cầu người dùng nhập vị trí chỗ ngồi là số dòng và số cột
@@ -99,7 +131,8 @@ public class User {
         System.out.print("Enter the column number: ");
         int column = sc.nextInt();
         sc.nextLine(); // đọc dòng newline còn sót lại sau khi nhập số cột
-        String showTimesInfo = sT.handleUserChoice(sT.getUserChoice());
+        int choice = showTimesManager.getUserChoice();
+        String showTimesInfo = ShowTimesManager.handleUserChoice(choice);
 
         tM.chooseSeat(userName, filmID, row, column, showTimesInfo);
 
@@ -116,22 +149,25 @@ public class User {
             seatInfo = "E";
         }
 
-        String ticketInfo = userName + ", "+ filmID + ", " + getDirector(filmID) + ", " + getDuration(filmID) + ", " + seatInfo + "-" + column + ", " + showTimesInfo;
+        String ticketInfo = userName + ", "+ filmID + ", " + theater + ", " + getDirector(filmID) + ", " + getDuration(filmID) + ", " + seatInfo + "-" + column + ", " + showTimesInfo;
 
         int price = getPrice(filmID);
-        System.out.println(" Price: " + price);
+        System.out.println(" Price of the film is $: " + price);
 
         AccountManager account = new AccountManager();
         account.fundAfterPurchasing(userName, price);
+
+
+        showTimesManager.seatsAfterPurchased(filmID, theater);
 
         //nhap thong tin ve vao file ticket.txt
         addingTicket(ticketInfo);
         System.out.println(" Purchase successfully ^ ^. Thanks You <3");
 
     }
-    */
 
-    /*
+
+
     public void refundTicket(String filmName) {
         TicketManager.deleteTicket(this.userName, filmName);
     }
@@ -245,6 +281,6 @@ public class User {
             e.printStackTrace();
         }
     }
-    */
+
 }
 
