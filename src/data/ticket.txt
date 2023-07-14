@@ -1,4 +1,1 @@
-huyhoang, f007, CGV, Sophon Sakdaphisit, 90, C-2, 9am
-huyhoang, f006, Platinum, Anthony Russo, 170, B-3, 7pm
-huyhoang, f004, DStar, Metro Goldwyn Mayer, 60, B-1, 2pm
-huyhoang, f002, Lotte, Metro Goldwyn Mayer, 60, D-5, 9am
+huyhoang, f002, Lotte, Metro Goldwyn Mayer, 60, C-2, 9am

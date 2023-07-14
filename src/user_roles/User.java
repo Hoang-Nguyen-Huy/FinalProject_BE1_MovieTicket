@@ -258,13 +258,13 @@ public class User {
         }
      }
 
-    public void removeTicket(String userName, String filmID, String seat, String showtime) {
+    public void removeTicket(String userName, String filmID, String theater, String seat, String showtime) {
         try (BufferedReader reader = new BufferedReader(new FileReader(ticketFile))) {
             String line;
             StringBuilder fileContent = new StringBuilder();
             while ((line = reader.readLine()) != null) {
                 String[] data = line.split(", ");
-                if (data[0].equals(userName) && data[1].equals(filmID) && data[4].equals(seat) && data[5].equals(showtime)) {
+                if (data[0].equals(userName) && data[1].equals(filmID) && data[2].equals(theater) && data[5].equals(seat) && data[6].equals(showtime)) {
 
                 } else {
                     fileContent.append(line).append("\n");
@@ -278,6 +278,8 @@ public class User {
             int price = getPrice(filmID);
             AccountManager account = new AccountManager();
             account.fundAfterRefunding(userName, price);
+            ShowTimesManager showTimesManager = new ShowTimesManager();
+            showTimesManager.seatsAfterRefund(filmID, theater);
             System.out.println(" Ticket refund successfully!!!");
         } catch (IOException e) {
             e.printStackTrace();

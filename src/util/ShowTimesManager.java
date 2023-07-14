@@ -335,4 +335,30 @@ public class ShowTimesManager extends HashMap<String, List<showTimes>> {
                 return "Invalid choice";
         }
     }
+
+    public void seatsAfterRefund(String filmID, String theater) {
+        String tempFileName = "temp.txt";
+        try (BufferedReader reader = new BufferedReader(new FileReader(ShowTimes_URL));
+             BufferedWriter writer = new BufferedWriter(new FileWriter(tempFileName))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] data = line.split(",");
+                if (data[0].equals(filmID) && data[1].equals(theater)) {
+                    int availableSeats = Integer.parseInt(data[3].trim());
+                    int updatedSeats = availableSeats + 1;
+                    line = data[0] + "," + data[1] + "," + data[2] + "," + updatedSeats;
+                }
+                writer.write(line);
+                writer.newLine();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        // Xóa tệp gốc và đổi tên tệp tạm thành tên tệp gốc
+        File originalFile = new File(ShowTimes_URL);
+        originalFile.delete();
+
+        File tempFile = new File(tempFileName);
+        tempFile.renameTo(originalFile);
+    }
 }
