@@ -31,7 +31,7 @@ public class Menu extends ArrayList<String> {
         try (BufferedReader br = new BufferedReader(new FileReader(AccountManager.fileName))) {
             String line;
             while ((line = br.readLine()) != null) {
-                String[] data = line.split(", ");
+                String[] data = line.split(",");
                 if (data.length == 4 && data[1].equals(username)) {
                     int fund = Integer.parseInt(data[3].trim());
                     if (fund == 0) {

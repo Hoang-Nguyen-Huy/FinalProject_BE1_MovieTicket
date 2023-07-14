@@ -45,18 +45,24 @@ public class AccountManager extends HashMap<String, User> {
 
     private void saveUsersToFile() {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(fileName))) {
+            int userCounter = 1;
             for (Map.Entry<String, User> entry : this.entrySet()) {
                 String userID = entry.getKey();
                 User user = entry.getValue();
-                String line = String.format("%s, %s, %s, %d",
-                        userID, user.getUserName(), user.getPassword(), user.getFund());
-                bw.write(line);
+                if (userID.charAt(0) == 'A') {
+                    bw.write(userID + "," + user.getUserName() + "," + user.getPassword() + "," + user.getFund());
+                } else {
+                    String newUserID = String.format("f%03d", userCounter);
+                    bw.write(newUserID + "," + user.getUserName() + "," + user.getPassword() + "," + user.getFund());
+                    userCounter++;
+                }
                 bw.newLine();
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
 
     public User loginAccount(String username, String password) {
         User user = getUserByUsernameAndPassword(username, password);
@@ -73,7 +79,7 @@ public class AccountManager extends HashMap<String, User> {
         try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
             String line;
             while ((line = br.readLine()) != null) {
-                String[] data = line.split(", ");
+                String[] data = line.split(",");
                 if (data.length == 4) {
                     String userID = data[0];
                     String userName = data[1];
@@ -98,24 +104,46 @@ public class AccountManager extends HashMap<String, User> {
     }
 
     public void registerNewUser() {
-        int counter = this.size() + 1;
-        String userID = String.format("f%03d", counter);
-        while (this.containsKey(userID)) {
-            userID = String.format("f%03d", ++counter);
+        int adminCounter = 0;
+        int userCounter = 0;
+
+        try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] data = line.split(",");
+                if (data.length == 4) {
+                    String userID = data[0];
+                    if (userID.charAt(0) == 'A') {
+                        adminCounter++;
+                    } else {
+                        userCounter++;
+                    }
+                }
+            }
+        } catch (FileNotFoundException e) {
+            // File does not exist
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+
+        int newCounter = userCounter + 1;
+        String userID = String.format("f%03d", newCounter);
         String userName, password;
         do {
             System.out.print("Input your username: ");
             userName = sc.nextLine();
+        } while (isUserExists(userName));
             System.out.print("Input your password: ");
             password = sc.nextLine();
-        } while (isUserExists(userName));
 
-        System.out.println("------------Congrats, your account has been registed!------------");
+
+        System.out.println("------------Congrats, your account has been registered!------------");
 
         this.put(userID, new User(userName, password, 0));
         saveUsersToFile();
     }
+
+
     public User getUserByUserName(String userName) {
         for (User user : this.values()) {
             if (user.getUserName().equals(userName)) {
@@ -133,10 +161,21 @@ public class AccountManager extends HashMap<String, User> {
         return null;
     }
     public boolean isUserExists(String userName) {
-        for (User user : this.values()) {
-            if (user.getUserName().equals(userName)) {
-                return true;
+        try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] data = line.split(",");
+                if (data.length == 4) {
+                    String userNameFromFile = data[1];
+                    if (userNameFromFile.equals(userName)) {
+                        return true;
+                    }
+                }
             }
+        } catch (FileNotFoundException e) {
+            // File does not exist
+        } catch (IOException e) {
+            e.printStackTrace();
         }
         return false;
     }
@@ -149,7 +188,7 @@ public class AccountManager extends HashMap<String, User> {
 
             String line;
             while ((line = br.readLine()) != null) {
-                String[] data = line.split(", ");
+                String[] data = line.split(",");
                 if (data.length == 4 && data[1].equals(userName)) {
                     int fund = Integer.parseInt(data[3].trim());
                     if (fund == 0) {
@@ -159,7 +198,7 @@ public class AccountManager extends HashMap<String, User> {
                             System.out.print("Invalid amount! Please input at least 100: ");
                             newFund = Integer.parseInt(sc.nextLine());
                         }
-                        line = String.format("%s, %s, %s, %d", data[0], data[1], data[2], newFund);
+                        line = String.format("%s,%s,%s,%d", data[0], data[1], data[2], newFund);
                     }
                 }
                 bw.write(line);

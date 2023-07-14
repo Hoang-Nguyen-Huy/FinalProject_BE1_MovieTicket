@@ -1,2 +1,8 @@
-A001, cookie, apupu123, 10000
-f001, huyhoang, hoang123123, 447
+f001,qtrung,trung123123,0
+f002,minhtien,tien123123,800
+f003,quanghai,hai123123,100
+f004,tiendat,dat123123,0
+f005,huyhoang,hoang123123,1000
+f006,vantho,tho123123,0
+A001,cookie,apupu123,10000
+f007,duyquang,quang123123,0
