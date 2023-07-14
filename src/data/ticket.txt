@@ -1,1 +1,2 @@
 huyhoang, f002, Lotte, Metro Goldwyn Mayer, 60, C-2, 9am
+huyhoang, f006, CGV, Anthony Russo, 170, C-3, 2pm

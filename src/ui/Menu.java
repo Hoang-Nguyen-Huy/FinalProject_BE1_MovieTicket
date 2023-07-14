@@ -50,6 +50,7 @@ public class Menu extends ArrayList<String> {
         this.add("\t1. Buy Ticket.");
         this.add("\t2. Show Your Ticket.");
         this.add("\t3. Remove Ticket (user get back 50% ticket price).");
+        this.add("\t4. Show your account balance.");
         this.add("\t0.Exit.");
     }
 

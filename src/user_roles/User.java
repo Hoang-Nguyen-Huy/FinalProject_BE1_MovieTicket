@@ -22,6 +22,8 @@ public class User {
     private static final String filmFile = "src/data/film.txt";
     private static final String ticketFile = "src/data/ticket.txt";
 
+    private static final String accountFile = "src/data/account.txt";
+
     private static final String showtimesFile = "src/data/showtimes.txt";
     protected String userName;
     protected String password;
@@ -281,6 +283,22 @@ public class User {
             ShowTimesManager showTimesManager = new ShowTimesManager();
             showTimesManager.seatsAfterRefund(filmID, theater);
             System.out.println(" Ticket refund successfully!!!");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void showAccountBalance(String userName) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(accountFile))) {
+            String line;
+            int balance;
+            while ((line = reader.readLine()) != null) {
+                String[] data = line.split(",");
+                if (data[1].equals(userName)) {
+                    balance = Integer.parseInt(data[3].trim());
+                    System.out.println("Your account balance is: $" + balance);
+                }
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -84,6 +84,7 @@ public class Main {
 
                                     user.removeTicket(username, filmID, theater, seat, showtime);
                                 }
+                                case 4 -> user.showAccountBalance(username);
                             }
                         } while (userChoice != 0);
 

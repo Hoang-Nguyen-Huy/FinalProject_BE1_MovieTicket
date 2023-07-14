@@ -231,12 +231,12 @@ public class AccountManager extends HashMap<String, User> {
 
             String line;
             while ((line = reader.readLine()) != null) {
-                String[] data = line.split(", ");
+                String[] data = line.split(",");
                 if (data.length == 4 && data[1].equals(username)) {
                     int fund = Integer.parseInt(data[3].trim());
                     if (fund > price) {
                         int newFund = fund - price;
-                        line = String.format("%s, %s, %s, %d", data[0], data[1], data[2], newFund);
+                        line = String.format("%s,%s,%s,%d", data[0], data[1], data[2], newFund);
                     } else {
                         System.out.println(" You don't have enough money in your account.");
                     }
@@ -261,11 +261,11 @@ public class AccountManager extends HashMap<String, User> {
              BufferedWriter writer = new BufferedWriter(new FileWriter(tempFileName))) {
             String line;
             while ((line = reader.readLine()) != null) {
-                String[] data = line.split(", ");
+                String[] data = line.split(",");
                 if (data.length == 4 && data[1].equals(username)) {
                     int fund = Integer.parseInt(data[3].trim());
                     int newFund = fund + (price/2);
-                    line = String.format("%s, %s, %s, %d", data[0], data[1], data[2], newFund);
+                    line = String.format("%s,%s,%s,%d", data[0], data[1], data[2], newFund);
                 }
                 writer.write(line);
                 writer.newLine();
