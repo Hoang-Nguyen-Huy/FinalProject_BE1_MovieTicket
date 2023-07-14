@@ -238,12 +238,14 @@ public class User {
                 String[] data = line.split(", ");
                 if (data[0].equals(userName)) {
                     String filmID = data[1];
-                    String director = data[2];
-                    int duration = Integer.parseInt(data[3].trim());
-                    String seat = data[4];
-                    String showTimesInfo = data[5];
+                    String theater = data[2];
+                    String director = data[3];
+                    int duration = Integer.parseInt(data[4].trim());
+                    String seat = data[5];
+                    String showTimesInfo = data[6];
 
                     System.out.println("Film ID: " + filmID);
+                    System.out.println("Theater: " + theater);
                     System.out.println("Director: " + director);
                     System.out.println("Duration: " + duration + " minutes");
                     System.out.println("Seat: " + seat);
